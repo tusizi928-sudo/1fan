@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ifa Lyu — 吕逸凡 | Visual Artist &amp; Designer</title>
+<meta name="description" content="吕逸凡 Ifa Lyu 作品集：影像、插画、书籍、品牌VI、交互与产品设计。">
+<link rel="stylesheet" href="css/style.css?v=23">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="brand">Ifa Lyu</a>
+  <div class="nav-right">
+    <div class="nav-links nav-links-cats" id="nav-cat-links"></div>
+    <div class="nav-links nav-links-simple">
+      <a href="work.html" data-i18n="nav_work">作品</a>
+      <a href="about.html" data-i18n="nav_about">简历</a>
+    </div>
+    <div class="lang-toggle">
+      <button data-lang="zh">中</button>
+      <button data-lang="en">EN</button>
+    </div>
+  </div>
+</nav>
+
+<header class="welcome-hero">
+  <div class="hero-scatter" id="hero-scatter"></div>
+  <div class="welcome-center">
+    <div class="welcome-kicker" data-i18n="hero_role">视觉艺术家 / 视觉传达设计师</div>
+    <h1 class="welcome-word">Welcome<span class="dot">.</span></h1>
+    <p class="welcome-sub"><span data-i18n="welcome_iam">我是</span> <strong>Ifa Lyu</strong></p>
+    <p class="welcome-tagline" data-i18n="hero_tagline">在视觉文化与身份认同之间，寻找传统与当代的转译方式。</p>
+    <div class="welcome-actions">
+      <a href="#cat-tiles" class="btn-solid">
+        <span data-i18n="hero_cta">查看作品</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="about.html" class="btn-line" data-i18n="intro_more">完整履历</a>
+    </div>
+  </div>
+</header>
+
+<section class="intro">
+  <div class="intro-grid">
+    <div class="reveal">
+      <div class="kicker" data-i18n="intro_kicker">关于我</div>
+      <h2 class="intro-heading hand-underline" data-lang-zh="研究驱动的视觉实践" data-lang-en="A research-led visual practice">研究驱动的视觉实践</h2>
+    </div>
+    <div class="reveal">
+      <p class="intro-bio" data-i18n="intro_bio"></p>
+      <a href="about.html" class="btn-line intro-more" data-i18n="intro_more">完整履历</a>
+    </div>
+  </div>
+</section>
+
+<section class="featured" id="cat-tiles-section">
+  <div class="section-head reveal">
+    <div>
+      <div class="kicker" data-i18n="work_section_kicker">作品</div>
+      <h2 data-i18n="work_section_heading">作品分类</h2>
+    </div>
+  </div>
+  <div class="cat-tile-grid" id="cat-tiles"></div>
+</section>
+
+<section class="featured">
+  <div class="section-head reveal">
+    <div>
+      <div class="kicker" data-i18n="featured_kicker">精选作品</div>
+      <h2 data-i18n="featured_heading">精选项目</h2>
+      <p class="sec-desc" data-i18n="featured_desc">从可穿戴装置到儿童教育提案，几件贯穿身体、自然与叙事的代表作品。</p>
+    </div>
+  </div>
+  <div class="feature-grid" id="featured-projects"></div>
+</section>
+
+<section class="contact-cta reveal">
+  <div class="kicker" data-i18n="footer_contact_kicker">联系</div>
+  <h2 data-lang-zh="一起做点什么" data-lang-en="Let's make something">一起做点什么</h2>
+  <a class="email" href="mailto:tusizi928@gmail.com">tusizi928@gmail.com</a>
+</section>
+
+<footer class="site-footer">
+  <div class="foot-left">
+    <span class="page-index">© <span id="year"></span> Ifa Lyu</span>
+    <span data-i18n="footer_rights">保留所有权利。</span>
+  </div>
+  <div class="foot-links">
+    <a href="mailto:tusizi928@gmail.com">Email</a>
+    <span>WeChat · tusizi928</span>
+  </div>
+</footer>
+
+<script src="js/data.js?v=23"></script>
+<script src="js/main.js?v=23"></script>
+<script src="js/gallery.js?v=23"></script>
+<script src="js/home.js?v=23"></script>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+  function applyInlineLang() {
+    const lang = document.documentElement.getAttribute("data-lang") || "zh";
+    document.querySelectorAll("[data-lang-zh]").forEach((el) => {
+      el.textContent = lang === "zh" ? el.dataset.langZh : el.dataset.langEn;
+    });
+  }
+  document.addEventListener("DOMContentLoaded", applyInlineLang);
+  document.addEventListener("langchange", applyInlineLang);
+</script>
+</body>
+</html>

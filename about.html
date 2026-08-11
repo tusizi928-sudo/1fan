@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume — Ifa Lyu</title>
+<meta name="description" content="吕逸凡 Ifa Lyu：教育背景、工作经历、荣誉奖项与联系方式。">
+<link rel="stylesheet" href="css/style.css?v=23">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="brand">Ifa Lyu</a>
+  <div class="nav-right">
+    <div class="nav-links nav-links-cats" id="nav-cat-links"></div>
+    <div class="nav-links nav-links-simple">
+      <a href="work.html" data-i18n="nav_work">作品</a>
+      <a href="about.html" data-i18n="nav_about">简历</a>
+    </div>
+    <div class="lang-toggle">
+      <button data-lang="zh">中</button>
+      <button data-lang="en">EN</button>
+    </div>
+  </div>
+</nav>
+
+<header class="page-hero reveal">
+  <h1 data-i18n="about_title">简历</h1>
+  <p class="intro-bio" data-i18n="intro_bio" style="margin-top:20px;max-width:70ch;"></p>
+  <a class="btn-line" style="margin-top:24px;" href="assets/resume/ifa-lyu-resume.pdf" target="_blank" rel="noopener" data-i18n="about_resume_cta">下载简历</a>
+</header>
+
+<div class="about-layout">
+  <nav class="about-toc">
+    <a href="#education" data-i18n="about_education_kicker">教育背景</a>
+    <a href="#work" data-i18n="about_work_kicker">工作经历</a>
+    <a href="#research" data-i18n="about_research_kicker">校园经历</a>
+    <a href="#awards" data-i18n="about_awards_kicker">荣誉与奖项</a>
+    <a href="#skills" data-i18n="about_skills_kicker">技能</a>
+    <a href="#contact" data-i18n="about_contact_kicker">联系方式</a>
+  </nav>
+
+  <div>
+    <section class="about-section reveal" id="education">
+      <h2 data-i18n="about_education_kicker">教育背景</h2>
+      <div id="education-list"></div>
+    </section>
+
+    <section class="about-section reveal" id="work">
+      <h2 data-i18n="about_work_kicker">工作经历</h2>
+      <div id="work-list"></div>
+    </section>
+
+    <section class="about-section reveal" id="research">
+      <h2 data-i18n="about_research_kicker">校园经历</h2>
+      <div id="research-list"></div>
+    </section>
+
+    <section class="about-section reveal" id="awards">
+      <h2 data-i18n="about_awards_kicker">荣誉与奖项</h2>
+      <div id="awards-list"></div>
+    </section>
+
+    <section class="about-section reveal" id="skills">
+      <h2 data-i18n="about_skills_kicker">技能</h2>
+      <div class="skills-row">
+        <h4 data-i18n="skills_design">设计与数字工具</h4>
+        <div class="chip-set" id="skills-design"></div>
+      </div>
+      <div class="skills-row">
+        <h4 data-i18n="skills_research">证书</h4>
+        <div class="chip-set" id="skills-research"></div>
+      </div>
+      <div class="skills-row">
+        <h4 data-i18n="skills_lang">语言</h4>
+        <div class="chip-set" id="skills-lang"></div>
+      </div>
+      <div class="skills-row">
+        <h4 data-i18n="skills_hobbies">兴趣爱好</h4>
+        <div class="chip-set" id="skills-hobbies"></div>
+      </div>
+    </section>
+
+    <section class="about-section reveal" id="contact" style="border-bottom:none;">
+      <h2 data-i18n="about_contact_kicker">联系方式</h2>
+      <div class="contact-block">
+        <div class="contact-item">
+          <div class="label">Email</div>
+          <a class="value" id="contact-email" href="#"></a>
+        </div>
+        <div class="contact-item">
+          <div class="label">WeChat</div>
+          <div class="value" id="contact-wechat"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="foot-left">
+    <span class="page-index">© <span id="year"></span> Ifa Lyu</span>
+    <span data-i18n="footer_rights">保留所有权利。</span>
+  </div>
+  <div class="foot-links">
+    <a href="mailto:tusizi928@gmail.com">Email</a>
+    <span>WeChat · tusizi928</span>
+  </div>
+</footer>
+
+<script src="js/data.js?v=23"></script>
+<script src="js/main.js?v=23"></script>
+<script src="js/about.js?v=23"></script>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
