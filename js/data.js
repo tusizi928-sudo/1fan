@@ -868,6 +868,7 @@ window.PROJECTS = [
       {
         title: { zh: "05 最终成果与反思", en: "05 Outcome & Reflection" },
         images: [...secImgs("chanpin", "tower-bridge", [32, 33]), ...secImgs("chanpin", "tower-bridge", [36, 36])],
+        rows: [1, 2],
         caption: {
           zh: "最终成果是一套提盒式木质拼图：拼图卡片可拆分重组、随身携带，邀请参与者在“视觉拼图”与“听觉扫码”两种玩法间自由切换。这次项目让我看到历史误读也能成为灵感，多感官学习与模块化思维能让文化以更轻盈的方式被理解和传播。",
           en: "The final result is a carry-box wooden puzzle — tiles that disassemble, travel and invite players to move freely between a visual puzzle and an audio-by-QR-code version. The project showed me how historical misreading can spark ideas, and how multisensory, modular design can carry culture more lightly.",

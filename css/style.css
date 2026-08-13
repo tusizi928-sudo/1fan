@@ -957,6 +957,53 @@ body::before {
   .award-item:nth-child(2) { border-top: 1px solid var(--line); }
 }
 
+/* resume, phone-width pass: the desktop version leans on a sticky side
+   nav + heavy glass cards, which on a phone collapses into a long stack
+   of separately-styled boxes (loose wrapped text links up top, thick
+   blurred panels below, chips and contact cards in yet another style) —
+   tightens the whole thing into one consistent, flatter rhythm instead. */
+@media (max-width: 640px) {
+  .page-about .page-hero { padding: 44px var(--edge) 28px; }
+  .page-about .about-layout { padding: 12px var(--edge) 64px; }
+
+  /* toc: plain wrapped text read like stray links — give it the same
+     pill-tab treatment as chips/skills below so it reads as one
+     consistent "tag" language across the whole page, and let it scroll
+     horizontally in one line instead of wrapping unevenly. */
+  .page-about .about-toc {
+    flex-wrap: nowrap; overflow-x: auto; gap: 8px;
+    padding-bottom: 4px; margin-bottom: 4px;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .page-about .about-toc::-webkit-scrollbar { display: none; }
+  .page-about .about-toc a {
+    flex-shrink: 0; padding: 7px 14px; border-radius: 999px; font-size: 12.5px;
+    background: rgba(255,255,255,.55); border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  }
+  .page-about .about-toc a.active { color: var(--accent); border-color: rgba(56,189,248,.45); }
+
+  /* section cards: lighter blur + shadow (heavy glass reads muddier at
+     this size) and tighter padding so the card edge sits closer to the
+     page edge instead of doubling up the inset. */
+  .page-about .about-section {
+    padding: 24px var(--edge) 28px; margin-bottom: 16px; border-radius: 14px;
+    box-shadow: 0 10px 20px -16px rgba(100,120,180,.3), inset 0 1px 0 rgba(255,255,255,.7);
+    -webkit-backdrop-filter: blur(10px) saturate(130%); backdrop-filter: blur(10px) saturate(130%);
+  }
+  .page-about .about-section h2 { margin-bottom: 20px; font-size: 26px; }
+
+  .page-about .chip-set { gap: 8px; }
+  .page-about .chip { padding: 7px 13px; font-size: 12.5px; }
+
+  /* contact cards: full-width stacked instead of flex-wrap's uneven
+     leftover-space wrapping, so they line up with everything else above
+     instead of sitting in their own little cluster. */
+  .page-about .contact-block { flex-direction: column; gap: 10px; }
+  .page-about .contact-item { width: 100%; padding: 14px 18px; }
+  .page-about .contact-item .value { font-size: 18px; }
+}
+
 /* ------------------------------------------------------------ reveal */
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
 .reveal.in { opacity: 1; transform: translateY(0); }
