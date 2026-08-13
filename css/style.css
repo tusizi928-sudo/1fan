@@ -445,6 +445,17 @@ body::before {
      screen has a sky+grass image built into it) blending through at the
      screen edges — desktop keeps the slight .85 translucency untouched. */
   .crt-screen::before { opacity: 1; }
+  /* letters were pinned to the top of the screen (align-items:flex-start)
+     specifically to leave the lower ~18% clear for the bubble-density
+     slider — but on mobile that slider isn't absolutely positioned over
+     the screen at all (it just flows below the whole computer, see the
+     base .hero-bubble-slider rule), so that reserved strip is dead space
+     with nothing sitting on it. Center the letters instead so any leftover
+     margin splits evenly top/bottom, and size them up a little so there's
+     less of it to begin with — this is the empty band that kept reading
+     as a stray "seam" across several rounds of screenshots. */
+  .crt-screen { align-items: center; }
+  .welcome-3d-wrap { width: 108%; flex-shrink: 0; margin-top: 0; }
 }
 
 /* ---- bubble-density slider — sits on the lower part of the iBook screen
@@ -523,6 +534,10 @@ body::before {
     position: absolute; left: 50%; top: 60%; transform: translateX(-50%) scale(.88);
     margin: 0; z-index: 5; font-size: 9px; padding: 3px 9px; gap: 5px;
   }
+  /* the whole pill (icon included) already shrinks 12% from the scale(.88)
+     above — bump the icon's own pre-scale size so it still reads clearly
+     post-scale instead of shrinking twice. */
+  .hero-bubble-slider .bubble-icon { font-size: 22px; }
   .hero-bubble-slider input[type="range"] { width: 64px; }
 }
 
@@ -636,8 +651,14 @@ body::before {
   position: absolute; left: 9px; bottom: 7px; z-index: 2;
   font-family: var(--serif); font-style: italic; font-weight: 700;
   font-size: clamp(16px, 1.5vw, 19px); line-height: 1;
-  color: #ffffff;
-  text-shadow: 0 1px 3px rgba(20,24,30,.45);
+  /* dark amber instead of white, and multiply-blended into the folder's
+     own gold gradient underneath (rather than a flat opaque badge sitting
+     on top of it) — the number now darkens whatever folder-material tone
+     is already there, reading as printed onto the paper instead of a
+     separate sticker pasted over a separate layer. */
+  color: #7a4400;
+  mix-blend-mode: multiply;
+  opacity: .85;
   pointer-events: none;
 }
 .cat-tile-name { font-family: var(--serif); font-weight: 500; font-size: 15.5px; color: var(--ink); }

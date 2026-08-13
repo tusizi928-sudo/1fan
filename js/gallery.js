@@ -112,6 +112,19 @@ window.renderH5Grid = function (h5s, lang) {
    images as evenly as possible across those rows (4 -> 2+2, 5 -> 3+2, 6 -> 3+3). */
 function rowChunkSizes(n, category) {
   const chunks = [];
+  // phones: a row of 3 (or chanpin's occasional row of 4) squeezed into a
+  // ~350px-wide screen leaves each image too small to read — cap every row
+  // at 2 images (last odd one out gets a full-width row of its own) and
+  // skip the category-specific rules entirely, regardless of category.
+  if (typeof window !== "undefined" && window.innerWidth && window.innerWidth <= 640) {
+    let remaining = n;
+    while (remaining > 2) {
+      chunks.push(2);
+      remaining -= 2;
+    }
+    if (remaining > 0) chunks.push(remaining);
+    return chunks;
+  }
   if (category === "chanpin") {
     if (n <= 3) return [n];
     const first = Math.ceil(n / 2);
