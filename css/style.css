@@ -301,6 +301,8 @@ body::before {
 .crt-scene { position: relative; width: min(1400px, 100%); z-index: 2; }
 .crt-wrap { position: relative; width: min(580px, 56vw); margin: 0 auto; z-index: 3; filter: drop-shadow(0 24px 40px rgba(20,40,20,.3)); }
 .crt-wrap img.crt-monitor-img { width: 100%; height: auto; display: block; }
+/* hidden on desktop — only swapped in on mobile below */
+.crt-wrap img.crt-mobile-static { display: none; width: 100%; height: auto; }
 
 .crt-screen {
   position: absolute; left: 17.23%; top: 18.39%; width: 63.87%; height: 46.78%;
@@ -440,22 +442,19 @@ body::before {
    still gets the full scattered-window layout). */
 @media (max-width: 720px) {
   .scatter-windows { display: none; }
-  /* belt-and-braces: fully opaque on mobile so there's zero chance of the
-     underlying photo's own baked-in wallpaper (the iBook product shot's
-     screen has a sky+grass image built into it) blending through at the
-     screen edges — desktop keeps the slight .85 translucency untouched. */
-  .crt-screen::before { opacity: 1; }
-  /* letters were pinned to the top of the screen (align-items:flex-start)
-     specifically to leave the lower ~18% clear for the bubble-density
-     slider — but on mobile that slider isn't absolutely positioned over
-     the screen at all (it just flows below the whole computer, see the
-     base .hero-bubble-slider rule), so that reserved strip is dead space
-     with nothing sitting on it. Center the letters instead so any leftover
-     margin splits evenly top/bottom, and size them up a little so there's
-     less of it to begin with — this is the empty band that kept reading
-     as a stray "seam" across several rounds of screenshots. */
-  .crt-screen { align-items: center; }
-  .welcome-3d-wrap { width: 108%; flex-shrink: 0; margin-top: 0; }
+  /* the live CSS-layered screen (blurred sky background + animated letter
+     pieces composited on top of the iBook photo) kept showing a seam at
+     the bottom of the screen in real mobile Safari across several rounds
+     of fixes, despite checking out cleanly in a pixel-accurate simulation
+     of the same CSS — something about how the browser actually composites
+     the blur/opacity/percentage-positioned layers together on that device
+     doesn't match the math. Rather than keep chasing it blind, mobile now
+     shows one pre-composited flat image instead (computer + sky + WELCOME
+     text baked into a single picture, generated the same way the working
+     simulation was) — nothing left to mis-layer. Desktop is untouched and
+     still gets the live animated version. */
+  .crt-monitor-img, .crt-screen { display: none; }
+  .crt-mobile-static { display: block; }
 }
 
 /* ---- bubble-density slider — sits on the lower part of the iBook screen
