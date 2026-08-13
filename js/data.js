@@ -26,6 +26,7 @@ window.STRINGS = {
   nav_work: { zh: "作品", en: "Work" },
   nav_about: { zh: "简历", en: "Resume" },
   nav_home: { zh: "首页", en: "Home" },
+  nav_categories: { zh: "作品分类", en: "Categories" },
   nav_featured: { zh: "精选项目", en: "Featured" },
   nav_photography: { zh: "摄影", en: "Photography" },
 

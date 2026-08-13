@@ -207,6 +207,17 @@ body::before {
   .lang-toggle { font-size: 11px; }
   .lang-toggle button { padding: 4px 9px; }
 }
+/* nav-links-simple now carries 4 items (Home / Categories / Featured /
+   Resume) instead of 2 — tightened further so it still fits one line on
+   an actual phone instead of wrapping or overflowing the nav bar */
+@media (max-width: 460px) {
+  .nav-links-simple { gap: 3px; }
+  .nav-links-simple a { padding: 0 7px; font-size: 9.5px; letter-spacing: .01em; }
+  .nav-right { gap: 6px; }
+}
+@media (max-width: 380px) {
+  .nav-links-simple a { padding: 0 5px; font-size: 9px; }
+}
 
 /* gray-white glass/crystal buttons — soft frosted bevel, no color-coded gel.
    Solid + outline share the same footprint, just different fill weight. */
@@ -417,6 +428,26 @@ body::before {
 .scatter-windows .win { width: clamp(190px, 42vw, 230px); }
 .scatter-windows .win-body { font-size: 12.5px; line-height: 1.55; }
 
+/* below the 980px breakpoint the note windows fall out of their absolute
+   overlapping slots and stack in a plain flex-wrap list under the iBook —
+   on an actual phone that's a dozen full-size app windows stacked end to
+   end, which read as chaotic clutter rather than a scattered desktop. Both
+   the windows and the bubbles floating behind them shrink noticeably here. */
+@media (max-width: 720px) {
+  .scatter-windows { gap: 9px; margin-top: 10px; padding: 0 4px; }
+  .scatter-windows .win,
+  .scatter-windows .sys-note { width: clamp(128px, 40vw, 158px); }
+  .scatter-windows .win-body { padding: 8px 9px; font-size: 10.5px; line-height: 1.4; }
+  .scatter-windows .sys-body { padding: 7px 8px; gap: 6px; }
+  .scatter-windows .sys-icon { width: 15px; height: 15px; font-size: 10px; }
+  .scatter-windows .sys-text { font-size: 9.5px; }
+  .scatter-windows .win-titlebar,
+  .scatter-windows .sys-note .win-titlebar { padding: 2px 3px 2px 5px; }
+  .scatter-windows .win-title { font-size: 9.5px; }
+  .scatter-windows .win-icon { width: 9px; height: 9px; }
+  .scatter-windows .win-controls span { width: 11px; height: 10px; font-size: 7px; }
+}
+
 /* ---- bubble-density slider — sits on the lower part of the iBook screen
    itself (the letters are pinned to the top of the screen to clear it) ---- */
 .hero-bubble-slider {
@@ -595,8 +626,12 @@ body::before {
 @media (max-width: 900px) {
   .cat-tile-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 14px; }
 }
-@media (max-width: 480px) {
-  .cat-tile-grid { grid-template-columns: 1fr; }
+/* most phones (even large ones, up to ~640px logical width) go full single
+   column instead of squeezing two folder tiles side by side — two icons
+   plus their captions in ~180px each read as cramped/misaligned on an
+   actual handset even though it technically fits */
+@media (max-width: 640px) {
+  .cat-tile-grid { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; gap: 30px; }
 }
 
 /* ---------------------------------------------------------- category page: full project blocks */
@@ -767,6 +802,12 @@ body::before {
 .timeline-item { display: grid; grid-template-columns: 130px 1fr; gap: 20px; padding: 20px 0; border-top: 1px solid var(--line); }
 .timeline-item:first-child { border-top: none; }
 .timeline-period { font-family: var(--mono); font-size: 12.5px; color: var(--ink-50); padding-top: 3px; }
+/* work + research entries: a date range like "2025.09 – 2027.01" stacks
+   into start date / short divider / end date instead of running as one
+   wide horizontal string that has to wrap awkwardly in the narrow left
+   column — see periodHTML() in about.js */
+.timeline-period-stacked { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; line-height: 1.3; }
+.timeline-period-stacked .tp-sep { width: 1px; height: 12px; background: var(--ink-50); opacity: .45; }
 .timeline-role { font-size: 12.5px; color: var(--accent); font-weight: 600; margin-top: 4px; }
 .timeline-title { font-weight: 600; font-size: 17px; }
 .timeline-note { margin-top: 8px; font-size: 14.5px; color: var(--ink-70); line-height: 1.6; }

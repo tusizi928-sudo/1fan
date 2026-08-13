@@ -185,11 +185,17 @@
     const hero = document.getElementById("welcome-hero");
     const rise = Math.max(700, (hero ? hero.getBoundingClientRect().height : 700) + 120);
 
+    // Smaller on phones — 34-102px bubbles read fine on a wide desktop hero
+    // but look oversized/cluttered against a ~375px-wide screen.
+    const isMobile = window.innerWidth <= 720;
+    const sizeMin = isMobile ? 16 : 34;
+    const sizeRange = isMobile ? 34 : 68;
+
     const count = Math.round((MAX_BUBBLES * (pct == null ? 75 : pct)) / 100);
     let html = "";
     for (let i = 0; i < count; i++) {
       const left = (2 + Math.random() * 96).toFixed(1);
-      const size = Math.round(34 + Math.random() * 68);
+      const size = Math.round(sizeMin + Math.random() * sizeRange);
       const duration = (9 + Math.random() * 8).toFixed(1);
       const delay = (Math.random() * 9).toFixed(1);
       const drift = Math.round(-40 + Math.random() * 80);

@@ -23,6 +23,17 @@
       .join("");
   }
 
+  // "2025.09 – 2027.01" -> start date / short vertical divider / end date,
+  // stacked as three lines instead of one wide horizontal string. Periods
+  // with no range (a single date, or an ongoing "至今"/"present" range)
+  // just render as-is with no divider.
+  function periodHTML(period) {
+    if (!period) return "";
+    const parts = period.split(/\s*[–—-]\s*/);
+    if (parts.length !== 2 || !parts[0] || !parts[1]) return period;
+    return `${parts[0]}<span class="tp-sep" aria-hidden="true"></span>${parts[1]}`;
+  }
+
   function bulletsHTML(bullets, l) {
     if (!bullets || !bullets.length) return "";
     return `<ul class="timeline-bullets">${bullets.map((b) => `<li>${b[l]}</li>`).join("")}</ul>`;
@@ -40,7 +51,7 @@
       .map(
         (w) => `
       <div class="timeline-item">
-        <div class="timeline-period">${w.period}</div>
+        <div class="timeline-period timeline-period-stacked">${periodHTML(w.period)}</div>
         <div>
           <div class="timeline-title">${w.org[l]}</div>
           <div class="timeline-role">${w.role[l]}</div>
@@ -62,7 +73,7 @@
         }
         return `
       <div class="timeline-item">
-        <div class="timeline-period">${r.period}</div>
+        <div class="timeline-period timeline-period-stacked">${periodHTML(r.period)}</div>
         <div>
           <div class="timeline-title">${r.org[l]}</div>
           <div class="timeline-role">${r.role[l]}</div>
