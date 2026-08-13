@@ -429,23 +429,12 @@ body::before {
 .scatter-windows .win-body { font-size: 12.5px; line-height: 1.55; }
 
 /* below the 980px breakpoint the note windows fall out of their absolute
-   overlapping slots and stack in a plain flex-wrap list under the iBook —
-   on an actual phone that's a dozen full-size app windows stacked end to
-   end, which read as chaotic clutter rather than a scattered desktop. Both
-   the windows and the bubbles floating behind them shrink noticeably here. */
+   overlapping slots and stack in a plain flex-wrap list under the iBook.
+   On an actual phone that's a dozen full-size app windows stacked end to
+   end — dropped entirely on mobile (desktop/tablet ≥720px unaffected,
+   still gets the full scattered-window layout). */
 @media (max-width: 720px) {
-  .scatter-windows { gap: 9px; margin-top: 10px; padding: 0 4px; }
-  .scatter-windows .win,
-  .scatter-windows .sys-note { width: clamp(128px, 40vw, 158px); }
-  .scatter-windows .win-body { padding: 8px 9px; font-size: 10.5px; line-height: 1.4; }
-  .scatter-windows .sys-body { padding: 7px 8px; gap: 6px; }
-  .scatter-windows .sys-icon { width: 15px; height: 15px; font-size: 10px; }
-  .scatter-windows .sys-text { font-size: 9.5px; }
-  .scatter-windows .win-titlebar,
-  .scatter-windows .sys-note .win-titlebar { padding: 2px 3px 2px 5px; }
-  .scatter-windows .win-title { font-size: 9.5px; }
-  .scatter-windows .win-icon { width: 9px; height: 9px; }
-  .scatter-windows .win-controls span { width: 11px; height: 10px; font-size: 7px; }
+  .scatter-windows { display: none; }
 }
 
 /* ---- bubble-density slider — sits on the lower part of the iBook screen
@@ -537,7 +526,16 @@ body::before {
 .welcome-actions { position: relative; z-index: 3; display: flex; align-items: center; justify-content: center; gap: 16px; }
 
 @media (max-width: 720px) {
-  .welcome-hero { padding-top: 40px; }
+  .welcome-hero { padding-top: 40px; gap: 4px; }
+  /* the role line reads fine on a wide desktop hero but just eats vertical
+     space above the fold on a phone — dropped on mobile only */
+  .welcome-kicker { display: none; }
+  /* was sized as a fraction of the hero (56vw), which shrinks to a tiny
+     iBook with a lot of dead blue space around it on a narrow phone —
+     mobile gets its own, much larger fraction of the screen width instead */
+  .crt-wrap { width: min(440px, 86vw); }
+  /* with .scatter-windows hidden above, "I'm Yifan Lyu" now follows the
+     computer directly with no leftover gap where the popups used to sit */
 }
 
 /* ----------------------------------------------------------------- intro
@@ -626,12 +624,8 @@ body::before {
 @media (max-width: 900px) {
   .cat-tile-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 14px; }
 }
-/* most phones (even large ones, up to ~640px logical width) go full single
-   column instead of squeezing two folder tiles side by side — two icons
-   plus their captions in ~180px each read as cramped/misaligned on an
-   actual handset even though it technically fits */
-@media (max-width: 640px) {
-  .cat-tile-grid { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; gap: 30px; }
+@media (max-width: 480px) {
+  .cat-tile-grid { grid-template-columns: repeat(2, 1fr); gap: 26px 12px; }
 }
 
 /* ---------------------------------------------------------- category page: full project blocks */
@@ -814,6 +808,26 @@ body::before {
 .timeline-note-standalone { padding: 16px 0; border-top: 1px solid var(--line); font-style: italic; color: var(--ink-50); }
 .timeline-bullets { margin: 10px 0 0; padding-left: 18px; font-size: 14.5px; color: var(--ink-70); line-height: 1.65; }
 .timeline-bullets li { margin-bottom: 6px; }
+/* mobile: work/research entries drop the side-by-side 130px date column
+   (too narrow to be worth it on a phone) and instead run full-width, with
+   the period as a compact horizontal row — start date, a short horizontal
+   divider, end date — sitting right above the title. Education keeps its
+   desktop layout at every width, per scope. */
+@media (max-width: 640px) {
+  #work-list .timeline-item,
+  #research-list .timeline-item {
+    grid-template-columns: 1fr; gap: 4px;
+  }
+  #work-list .timeline-period-stacked,
+  #research-list .timeline-period-stacked {
+    flex-direction: row; justify-content: flex-start; align-items: center;
+    gap: 7px; font-size: 11.5px;
+  }
+  #work-list .timeline-period-stacked .tp-sep,
+  #research-list .timeline-period-stacked .tp-sep {
+    width: 12px; height: 1px;
+  }
+}
 .timeline-bullets li:last-child { margin-bottom: 0; }
 .timeline-result { margin-top: 10px; font-size: 13.5px; color: var(--accent); line-height: 1.6; }
 
