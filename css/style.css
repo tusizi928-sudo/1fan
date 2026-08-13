@@ -20,7 +20,6 @@
   --accent-warm: #b91c1c;
   --accent-warm-border: rgba(185, 28, 28, .35);
   --accent-2: #38bdf8;
-  --cat-heading: #5b6fc4; /* single blue-violet used for category headings/folder names — not per-category, just one consistent color */
   --accent-pale: #e0f2fe;
   --accent-grad: linear-gradient(125deg, #7dd3fc 0%, #38bdf8 45%, #c084fc 100%);
   --purple: #6b21a8;
@@ -555,9 +554,7 @@ body::before {
 .cat-group-head h3 {
   font-family: var(--serif); font-style: italic; font-weight: 500;
   font-size: clamp(22px, 2.6vw, 30px);
-  /* one consistent blue-violet instead of flat black — kept to a single
-     color (not per-category) so the list doesn't turn into a rainbow */
-  color: var(--cat-heading);
+  color: var(--ink);
 }
 .cat-group-head .cat-en { font-family: var(--mono); font-size: 11.5px; color: var(--ink-50); text-transform: uppercase; letter-spacing: .06em; }
 
@@ -616,16 +613,16 @@ body::before {
   filter: drop-shadow(0 16px 22px var(--tile-c, rgba(150,110,10,.4)));
 }
 .cat-tile-folder { position: relative; z-index: 2; }
-/* the number now lives tucked behind the folder icon's own bottom-left
-   corner (in DOM order, and therefore paint order, before the svg — see
-   folderSvg()/renderCategoryTiles() in gallery.js) rather than as a
-   separate metallic line of text above the folder name */
+/* the number sits in the folder's own bottom-left corner, on top of the
+   icon (after the svg in DOM order — see folderSvg()/renderCategoryTiles()
+   in gallery.js) as a small white badge rather than a separate metallic
+   line of text above the folder name */
 .cat-tile-num {
-  position: absolute; left: -6px; bottom: -8px; z-index: 0;
+  position: absolute; left: 9px; bottom: 7px; z-index: 2;
   font-family: var(--serif); font-style: italic; font-weight: 700;
-  font-size: clamp(30px, 3.4vw, 38px); line-height: 1;
+  font-size: clamp(16px, 1.5vw, 19px); line-height: 1;
   color: #ffffff;
-  text-shadow: 0 1px 2px rgba(20,24,30,.2);
+  text-shadow: 0 1px 3px rgba(20,24,30,.45);
   pointer-events: none;
 }
 .cat-tile-name { font-family: var(--serif); font-weight: 500; font-size: 15.5px; color: var(--ink); }
@@ -824,13 +821,29 @@ body::before {
    divider, end date — sitting right above the title. Education keeps its
    desktop layout at every width, per scope. */
 @media (max-width: 640px) {
+  /* flex column, not grid: every direct child (date row, then the
+     title/role/bullets/result block) stacks at the same left edge with
+     one consistent gap, instead of relying on each element's own
+     independent margin-top (which drifted out of sync). */
   #work-list .timeline-item,
   #research-list .timeline-item {
-    grid-template-columns: 1fr; gap: 4px; text-align: left;
+    display: flex; flex-direction: column; align-items: flex-start;
+    grid-template-columns: none; gap: 6px; text-align: left;
   }
   #work-list .timeline-item > div,
   #research-list .timeline-item > div {
-    text-align: left;
+    display: flex; flex-direction: column; align-items: flex-start;
+    width: 100%; gap: 4px; text-align: left;
+  }
+  #work-list .timeline-title,
+  #research-list .timeline-title,
+  #work-list .timeline-role,
+  #research-list .timeline-role,
+  #work-list .timeline-note,
+  #research-list .timeline-note,
+  #work-list .timeline-result,
+  #research-list .timeline-result {
+    margin-top: 0; width: 100%;
   }
   #work-list .timeline-period-stacked,
   #research-list .timeline-period-stacked {
@@ -841,11 +854,21 @@ body::before {
   #research-list .timeline-period-stacked .tp-sep {
     width: 12px; height: 1px;
   }
-  /* the bullet list is literally "what I did" for each role — a blue
-     tint pulls it apart from the plain gray notes/result text nearby */
+  /* bullet list: drop the default 18px marker indent (it was the one
+     piece of content NOT flush with the title/role/date above it) and
+     use a tight hanging dash instead, so the text itself lines up. The
+     blue tint still pulls "what I did" apart from the plain gray notes. */
+  #work-list .timeline-bullets,
+  #research-list .timeline-bullets {
+    margin: 2px 0 0; padding-left: 0; list-style: none; width: 100%;
+  }
   #work-list .timeline-bullets li,
   #research-list .timeline-bullets li {
-    color: var(--accent);
+    position: relative; padding-left: 13px; color: var(--accent);
+  }
+  #work-list .timeline-bullets li::before,
+  #research-list .timeline-bullets li::before {
+    content: "\2013"; position: absolute; left: 0; top: 0;
   }
 }
 .timeline-bullets li:last-child { margin-bottom: 0; }

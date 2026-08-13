@@ -356,8 +356,8 @@ window.renderCategoryTiles = function (containerId) {
     <a href="work.html?cat=${c.slug}" class="cat-tile reveal" style="--tile-c: var(--c-${c.slug})">
       <div class="cat-tile-peek">${peekHTML}</div>
       <div class="cat-tile-icon">
-        <div class="cat-tile-num">${c.num}</div>
         ${folderSvg(idx)}
+        <div class="cat-tile-num">${c.num}</div>
       </div>
       <div class="cat-tile-folder">
         <div class="cat-tile-name">${lang === "zh" ? c.zh : c.en}</div>
@@ -375,8 +375,8 @@ window.renderCategoryTiles = function (containerId) {
     <a href="${window.PHOTOGRAPHY_LINK}" target="_blank" rel="noopener" class="cat-tile cat-tile-external reveal">
       <div class="cat-tile-peek"></div>
       <div class="cat-tile-icon">
-        <div class="cat-tile-num">★</div>
         ${folderSvg("ext")}
+        <div class="cat-tile-num">★</div>
       </div>
       <div class="cat-tile-folder">
         <div class="cat-tile-name">${photoStrings.zh_en_label[lang]}</div>
