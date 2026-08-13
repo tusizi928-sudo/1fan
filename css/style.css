@@ -175,7 +175,13 @@ body::before {
 .nav-links-simple { display: none; }
 @media (max-width: 980px) {
   .nav-links-cats { display: none; }
-  .nav-links-simple { display: flex; }
+  /* stretch to fill the row like nav-links-cats does — without this the
+     row is only ever as wide as its own content, so it visibly falls
+     short of the nav's right edge with the shorter Chinese labels (首页/
+     作品分类/精选项目/简历) even though the longer English ones happened
+     to reach close enough to look intentional. */
+  .nav-links-simple { display: flex; flex: 1; justify-content: space-evenly; min-width: 0; }
+  .nav-links-simple a { flex: 1; }
 }
 @media (max-width: 1180px) {
   .nav-links-cats a { padding: 0 4px; font-size: 10px; }
@@ -434,6 +440,11 @@ body::before {
    still gets the full scattered-window layout). */
 @media (max-width: 720px) {
   .scatter-windows { display: none; }
+  /* belt-and-braces: fully opaque on mobile so there's zero chance of the
+     underlying photo's own baked-in wallpaper (the iBook product shot's
+     screen has a sky+grass image built into it) blending through at the
+     screen edges — desktop keeps the slight .85 translucency untouched. */
+  .crt-screen::before { opacity: 1; }
 }
 
 /* ---- bubble-density slider — sits on the lower part of the iBook screen
@@ -459,6 +470,10 @@ body::before {
   width: 100px; accent-color: var(--accent);
 }
 .hero-bubble-slider .bubble-pct { min-width: 2.6em; text-align: right; font-weight: 700; color: var(--ink); }
+/* the 🫧 glyph was inheriting the pill's tiny 10.5px label size, which
+   flattens its fine overlapping-circle detail into a gray smudge — give it
+   its own larger, fully-opaque size so it actually reads as bubbles */
+.hero-bubble-slider .bubble-icon { font-size: 18px; line-height: 1; flex-shrink: 0; filter: none; opacity: 1; }
 
 /* ---- compact "System Protection"-style toast for the lead intro line —
    same crystal-glass material as .win ---- */
@@ -844,6 +859,18 @@ body::before {
   #work-list .timeline-result,
   #research-list .timeline-result {
     margin-top: 0; width: 100%;
+  }
+  /* on a phone, title + role + bullets + result stacked tight together read
+     as "everything is blue" when role and result both carry the desktop
+     accent color — keep that blue on just the bullets (the actual "what I
+     did" responsibility text the color was requested for) and bring role
+     + result back to plain ink, so the block reads black-with-blue-accents
+     again instead of solid blue. */
+  #work-list .timeline-role,
+  #research-list .timeline-role,
+  #work-list .timeline-result,
+  #research-list .timeline-result {
+    color: var(--ink);
   }
   #work-list .timeline-period-stacked,
   #research-list .timeline-period-stacked {
