@@ -521,6 +521,17 @@ window.PROJECTS = [
           en: "05 Brand voice: “Let every child see the beautiful world that belongs to them.” The world isn't seen from just one angle — GOUGO hopes children can glimpse it as their dogs do too.",
         },
       },
+      {
+        title: { zh: "宣传片", en: "Promo Film" },
+        video: {
+          src: "assets/video/shouhui/gougo-promo.mp4",
+          poster: "assets/img/shouhui/gougo/promo-poster.jpg",
+        },
+        caption: {
+          zh: "GOUGO 品牌宣传片，以狗的视角回顾整套品牌世界观。",
+          en: "The GOUGO brand promo film, revisiting the whole brand world from a dog's point of view.",
+        },
+      },
     ],
   },
   {
@@ -750,6 +761,7 @@ window.PROJECTS = [
       {
         title: { zh: "过程", en: "Process" },
         images: secImgs("jiaohu", "harmony-of-essence", [3, 5]),
+        rows: [1, 1, 1],
         caption: {
           zh: "从形态研究到节点网络搭建，测试有机形态的生成逻辑，并进一步探索流体与颗粒质感表现情绪波动的可视化形态，聚焦局部细节的肌理表现。",
           en: "From form studies to node-network setups testing the generative logic of the organic forms, extended into fluid, granular textures visualising emotion, with close-up crops focused on surface texture.",
@@ -758,6 +770,7 @@ window.PROJECTS = [
       {
         title: { zh: "装置与制作", en: "Installation & Making" },
         images: secImgs("jiaohu", "harmony-of-essence", [6, 8]),
+        rows: [2, 1],
         caption: {
           zh: "以人体经络图为参照标注装置在身体上的分布方式，经材质打样与3D建模测试确定连接与佩戴方式，最终制成蓝色触须状的可穿戴装置。",
           en: "The body's meridian map annotates how the device distributes across the body; material sampling and 3D modelling tests determine how it connects and is worn, resulting in the finished blue tentacle-like wearable.",
@@ -780,6 +793,7 @@ window.PROJECTS = [
       {
         title: { zh: "项目概述 · 视觉开发", en: "Overview & Visual Development" },
         images: secImgs("jiaohu", "qisphere", [1, 2]),
+        rows: [1, 1],
         caption: {
           zh: "项目概述：QiSphere 是受《黄帝内经》五行理论启发的互动投影装置，把面部感官与人体脏腑、情绪一一对应；以人体器官插画构建视觉语言，手工缝制感应部件，组装成可穿戴的面具装置。",
           en: "Project overview: QiSphere is an interactive projection device inspired by the Five Elements theory in the Huangdi Neijing, mapping facial senses to internal organs and emotions. Organ illustrations build the visual language, and hand-sewn sensor components are assembled into the wearable mask device.",
@@ -788,6 +802,7 @@ window.PROJECTS = [
       {
         title: { zh: "投影映射 · 佩戴实拍", en: "Projection Mapping & In Use" },
         images: secImgs("jiaohu", "qisphere", [3, 4]),
+        rows: [1, 1],
         caption: {
           zh: "触摸面具上的五个感应点，对应人体部位投射出不同的能量图形，背后由 TouchDesigner 实时驱动；佩戴实拍展示装置在真实使用中投射出“气”“阴阳”与五行的光影图案，鼓励使用者关注自身能量状态。",
           en: "Touching one of five sensor points on the mask projects a corresponding energy pattern onto the body, driven in real time by TouchDesigner. Worn in action, the projections visualise concepts like Qi and Yin-Yang from the Five Elements, encouraging users to reflect on their own energy state.",
@@ -832,17 +847,6 @@ window.PROJECTS = [
         },
       },
       {
-        title: { zh: "03 投影呈现 · 影片", en: "03 Projection Film" },
-        video: {
-          src: "assets/video/chanpin/tower-bridge.mp4",
-          poster: "assets/img/chanpin/tower-bridge/poster.jpg",
-        },
-        caption: {
-          zh: "以塔桥建造历史影像为素材剪辑的投影短片，呈现给参与者作为体验的开场引子。",
-          en: "A projection film cut from archival footage of the bridge's construction, used to open the experience for participants.",
-        },
-      },
-      {
         title: { zh: "04 实体呈现", en: "04 Physical Design" },
         images: [...secImgs("chanpin", "tower-bridge", [24, 25]), ...secImgs("chanpin", "tower-bridge", [27, 29])],
         caption: {
@@ -851,8 +855,19 @@ window.PROJECTS = [
         },
       },
       {
+        title: { zh: "03 投影呈现 · 影片", en: "03 Projection Film" },
+        video: {
+          src: "assets/video/chanpin/tower-bridge.mp4",
+          poster: "assets/img/chanpin/tower-bridge/poster.jpg",
+        },
+        caption: {
+          zh: "以塔桥建造历史影像为素材剪辑的投影短片，呈现给参与者作为体验的开场引子。此片实际拍摄于04实体呈现阶段完成之后。",
+          en: "A projection film cut from archival footage of the bridge's construction, used to open the experience for participants. Filmed after the phase-four physical design was completed.",
+        },
+      },
+      {
         title: { zh: "05 最终成果与反思", en: "05 Outcome & Reflection" },
-        images: [...secImgs("chanpin", "tower-bridge", [32, 33]), ...secImgs("chanpin", "tower-bridge", [36, 37])],
+        images: [...secImgs("chanpin", "tower-bridge", [32, 33]), ...secImgs("chanpin", "tower-bridge", [36, 36])],
         caption: {
           zh: "最终成果是一套提盒式木质拼图：拼图卡片可拆分重组、随身携带，邀请参与者在“视觉拼图”与“听觉扫码”两种玩法间自由切换。这次项目让我看到历史误读也能成为灵感，多感官学习与模块化思维能让文化以更轻盈的方式被理解和传播。",
           en: "The final result is a carry-box wooden puzzle — tiles that disassemble, travel and invite players to move freely between a visual puzzle and an audio-by-QR-code version. The project showed me how historical misreading can spark ideas, and how multisensory, modular design can carry culture more lightly.",

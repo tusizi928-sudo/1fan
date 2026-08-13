@@ -442,19 +442,18 @@ body::before {
    still gets the full scattered-window layout). */
 @media (max-width: 720px) {
   .scatter-windows { display: none; }
-  /* the live CSS-layered screen (blurred sky background + animated letter
-     pieces composited on top of the iBook photo) kept showing a seam at
-     the bottom of the screen in real mobile Safari across several rounds
-     of fixes, despite checking out cleanly in a pixel-accurate simulation
-     of the same CSS — something about how the browser actually composites
-     the blur/opacity/percentage-positioned layers together on that device
-     doesn't match the math. Rather than keep chasing it blind, mobile now
-     shows one pre-composited flat image instead (computer + sky + WELCOME
-     text baked into a single picture, generated the same way the working
-     simulation was) — nothing left to mis-layer. Desktop is untouched and
-     still gets the live animated version. */
-  .crt-monitor-img, .crt-screen { display: none; }
+  /* the seam turned out to live in ibook.webp itself — its baked-in
+     screen wallpaper (sky+grass) peeking past our overlay's edges — not
+     in the letters. Swap just the photo for a version with a guaranteed-
+     clean sky already baked into its screen area (crt-mobile-static),
+     and drop .crt-screen's own background/blur layer since that photo
+     now handles the backdrop — leaving only the animated WELCOME letters
+     to render live on top, same as desktop. */
+  .crt-monitor-img { display: none; }
   .crt-mobile-static { display: block; }
+  .crt-screen { background: transparent; align-items: center; }
+  .crt-screen::before { display: none; }
+  .welcome-3d-wrap { width: 108%; flex-shrink: 0; margin-top: 0; }
 }
 
 /* ---- bubble-density slider — sits on the lower part of the iBook screen
@@ -650,14 +649,16 @@ body::before {
   position: absolute; left: 9px; bottom: 7px; z-index: 2;
   font-family: var(--serif); font-style: italic; font-weight: 700;
   font-size: clamp(16px, 1.5vw, 19px); line-height: 1;
-  /* dark amber instead of white, and multiply-blended into the folder's
-     own gold gradient underneath (rather than a flat opaque badge sitting
-     on top of it) — the number now darkens whatever folder-material tone
-     is already there, reading as printed onto the paper instead of a
-     separate sticker pasted over a separate layer. */
-  color: #7a4400;
+  /* lighter amber, still multiply-blended into the folder's own gold
+     gradient underneath so it reads as printed onto the material rather
+     than a badge sitting on top of it — plus a soft light highlight
+     above the ink (a thin white text-shadow) for a bit of embossed sheen,
+     so the number itself catches light like the rest of the glossy
+     folder instead of looking flat. */
+  color: #c9862e;
+  text-shadow: 0 -1px 0 rgba(255,255,255,.55), 0 1px 1px rgba(120,70,10,.25);
   mix-blend-mode: multiply;
-  opacity: .85;
+  opacity: .8;
   pointer-events: none;
 }
 .cat-tile-name { font-family: var(--serif); font-weight: 500; font-size: 15.5px; color: var(--ink); }

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yifan Lyu | Visual Artist &amp; Designer</title>
 <meta name="description" content="Yifan Lyu's portfolio: photography, illustration, book design, exhibitions and interaction design.">
-<link rel="stylesheet" href="css/style.css?v=67">
+<link rel="stylesheet" href="css/style.css?v=68">
 </head>
 <body>
 
@@ -42,13 +42,14 @@
       <div class="crt-screen">
         <div class="welcome-3d-wrap" id="welcome-3d-wrap" role="img" aria-label="Welcome to Yifan Lyu's Portfolio"></div>
       </div>
-      <!-- mobile-only fallback: one pre-composited flat image (computer +
-           sky + WELCOME text baked into a single picture, no live layering)
-           instead of the CSS-layered version above, which kept showing a
-           seam at the bottom of the screen in real mobile Safari despite
-           checking out fine in simulation. Swapped in via CSS at ≤720px;
-           desktop keeps the live animated version untouched. -->
-      <img class="crt-mobile-static" src="assets/img/hero/hero-mobile-static.webp" alt="Welcome to Yifan Lyu's Portfolio">
+      <!-- mobile-only: swaps crt-monitor-img for a pre-composited flat photo
+           (computer + clean sky baked into one picture, no live background
+           layer) instead of ibook.webp's own baked-in sky+grass wallpaper —
+           this is what actually fixed the seam, since it's just the photo,
+           not the whole screen. The animated WELCOME letters (.crt-screen
+           below) still render live on top on mobile, same as desktop, now
+           that they're sitting on a guaranteed-clean backdrop. -->
+      <img class="crt-mobile-static" src="assets/img/hero/ibook-mobile-sky.webp" alt="">
       <div class="hero-bubble-slider">
         <span class="bubble-icon">&#129767;</span>
         <input type="range" id="bubble-density" min="0" max="100" step="5" value="75">
@@ -123,11 +124,11 @@
   </div>
 </div>
 
-<script src="js/data.js?v=67"></script>
-<script src="js/welcome-pieces.js?v=67"></script>
-<script src="js/main.js?v=67"></script>
-<script src="js/gallery.js?v=67"></script>
-<script src="js/home.js?v=67"></script>
+<script src="js/data.js?v=68"></script>
+<script src="js/welcome-pieces.js?v=68"></script>
+<script src="js/main.js?v=68"></script>
+<script src="js/gallery.js?v=68"></script>
+<script src="js/home.js?v=68"></script>
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
   function applyInlineLang() {

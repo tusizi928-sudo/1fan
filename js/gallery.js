@@ -10,6 +10,10 @@ window.collectEntries = function (p) {
     return p.sections.map((s) => ({
       title: s.title || null,
       caption: s.caption,
+      // optional explicit row-chunk override (e.g. [1,1,1] or [2,1]) for
+      // when a section's default auto-chunked layout isn't what a specific
+      // project calls for — see rowChunkSizes/justifyRow.
+      rows: s.rows || null,
       items: s.video
         ? [{ type: "video", src: s.video.src, poster: s.video.poster }]
         : s.images.map((src) => ({ type: "image", src })),
@@ -111,13 +115,9 @@ window.renderH5Grid = function (h5s, lang) {
    asks for a stricter rule instead — never more than 2 rows total, splitting the
    images as evenly as possible across those rows (4 -> 2+2, 5 -> 3+2, 6 -> 3+3). */
 function rowChunkSizes(n, category) {
+  // mobile's "1 per row" override happens one level up in justifyRow,
+  // before this function is even called — this is desktop-only sizing.
   const chunks = [];
-  // phones: even 2-per-row was still reported too small to read — one
-  // image per row, full width, regardless of category.
-  if (typeof window !== "undefined" && window.innerWidth && window.innerWidth <= 640) {
-    for (let i = 0; i < n; i++) chunks.push(1);
-    return chunks;
-  }
   if (category === "chanpin") {
     if (n <= 3) return [n];
     const first = Math.ceil(n / 2);
@@ -155,7 +155,19 @@ function justifyRow(rowEl) {
     return w && h ? w / h : 1.5;
   });
 
-  const sizes = rowChunkSizes(thumbs.length, rowEl.dataset.cat);
+  // mobile's "1 per row" rule always wins (readability over any per-entry
+  // layout a project asked for); otherwise an explicit data-rows override
+  // (set from a section's optional `rows` field in data.js) takes priority
+  // over the auto-chunked default.
+  const isMobile = typeof window !== "undefined" && window.innerWidth && window.innerWidth <= 640;
+  let sizes;
+  if (isMobile) {
+    sizes = thumbs.map(() => 1);
+  } else if (rowEl.dataset.rows) {
+    sizes = rowEl.dataset.rows.split(",").map((n) => parseInt(n, 10)).filter((n) => n > 0);
+  } else {
+    sizes = rowChunkSizes(thumbs.length, rowEl.dataset.cat);
+  }
   const rows = [];
   let cursor = 0;
   sizes.forEach((size) => {
@@ -244,7 +256,7 @@ window.renderEntryList = function (entries, lang, category) {
           ${indexLabel ? `<div class="media-index">${indexLabel}</div>` : ""}
           <p>${e.caption[lang]}</p>
         </div>
-        <div class="${multi ? "entry-gallery-row" : "entry-gallery"}"${multi && category ? ` data-cat="${category}"` : ""}>${thumbs}</div>
+        <div class="${multi ? "entry-gallery-row" : "entry-gallery"}"${multi && category ? ` data-cat="${category}"` : ""}${multi && e.rows ? ` data-rows="${e.rows.join(",")}"` : ""}>${thumbs}</div>
       </div>`;
     })
     .join("");
