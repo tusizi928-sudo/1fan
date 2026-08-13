@@ -8,7 +8,7 @@
   }
 
   function render() {
-    const lang = document.documentElement.getAttribute("data-lang") || "zh";
+    const lang = document.documentElement.getAttribute("data-lang") || "en";
     const slug = catSlug();
     const titleEl = document.getElementById("work-title");
     const descEl = document.getElementById("work-desc");

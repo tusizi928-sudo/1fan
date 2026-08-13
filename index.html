@@ -1,63 +1,70 @@
 <!doctype html>
-<html lang="zh-CN" data-lang="zh">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ifa Lyu — 吕逸凡 | Visual Artist &amp; Designer</title>
-<meta name="description" content="吕逸凡 Ifa Lyu 作品集：影像、插画、书籍、品牌VI、交互与产品设计。">
-<link rel="stylesheet" href="css/style.css?v=23">
+<title>Yifan Lyu | Visual Artist &amp; Designer</title>
+<meta name="description" content="Yifan Lyu's portfolio: photography, illustration, book design, exhibitions and interaction design.">
+<link rel="stylesheet" href="css/style.css?v=60">
 </head>
 <body>
 
 <nav class="site-nav">
-  <a href="index.html" class="brand">Ifa Lyu</a>
-  <div class="nav-right">
-    <div class="nav-links nav-links-cats" id="nav-cat-links"></div>
-    <div class="nav-links nav-links-simple">
-      <a href="work.html" data-i18n="nav_work">作品</a>
-      <a href="about.html" data-i18n="nav_about">简历</a>
-    </div>
-    <div class="lang-toggle">
-      <button data-lang="zh">中</button>
-      <button data-lang="en">EN</button>
+  <div class="nav-inner">
+    <a href="index.html" class="brand" aria-label="Home"><span class="brand-mark">✦</span></a>
+    <div class="nav-right">
+      <div class="nav-links nav-links-cats" id="nav-cat-links"></div>
+      <div class="nav-links nav-links-simple">
+        <a href="index.html" data-i18n="nav_home">首页</a>
+        <a href="about.html" data-i18n="nav_about">简历</a>
+      </div>
+      <div class="lang-toggle">
+        <button data-lang="zh">中</button>
+        <button data-lang="en">EN</button>
+      </div>
     </div>
   </div>
 </nav>
 
-<header class="welcome-hero">
-  <div class="hero-scatter" id="hero-scatter"></div>
-  <div class="welcome-center">
-    <div class="welcome-kicker" data-i18n="hero_role">视觉艺术家 / 视觉传达设计师</div>
-    <h1 class="welcome-word">Welcome<span class="dot">.</span></h1>
-    <p class="welcome-sub"><span data-i18n="welcome_iam">我是</span> <strong>Ifa Lyu</strong></p>
-    <p class="welcome-tagline" data-i18n="hero_tagline">在视觉文化与身份认同之间，寻找传统与当代的转译方式。</p>
-    <div class="welcome-actions">
-      <a href="#cat-tiles" class="btn-solid">
-        <span data-i18n="hero_cta">查看作品</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
-      <a href="about.html" class="btn-line" data-i18n="intro_more">完整履历</a>
+<header class="welcome-hero" id="welcome-hero">
+  <div class="welcome-kicker" data-i18n="hero_role">视觉艺术家 / 视觉传达设计师</div>
+
+  <div class="hero-clouds" aria-hidden="true">
+    <div class="hero-cloud" style="top:4%; width:340px; height:80px; animation-duration:75s; animation-delay:0s;"></div>
+    <div class="hero-cloud" style="top:11%; width:220px; height:56px; animation-duration:58s; animation-delay:-20s;"></div>
+    <div class="hero-cloud" style="top:2%; width:180px; height:46px; animation-duration:66s; animation-delay:-42s;"></div>
+  </div>
+  <div class="crt-scene" id="crt-scene">
+    <div class="crt-wrap">
+      <img class="crt-monitor-img" src="assets/img/hero/ibook.webp" alt="">
+      <div class="crt-screen">
+        <div class="welcome-3d-wrap" id="welcome-3d-wrap" role="img" aria-label="Welcome to Yifan Lyu's Portfolio"></div>
+      </div>
+      <div class="hero-bubble-slider">
+        <span>&#129767;</span>
+        <input type="range" id="bubble-density" min="0" max="100" step="5" value="75">
+        <span class="bubble-pct" id="bubble-pct">75%</span>
+      </div>
     </div>
+    <div class="scatter-windows" id="scatter-windows"></div>
+  </div>
+  <div class="hero-bubbles" id="hero-bubbles" aria-hidden="true"></div>
+
+  <p class="welcome-sub"><span data-i18n="welcome_iam">我是</span> <strong>Yifan Lyu</strong></p>
+  <p class="welcome-tagline" data-i18n="hero_tagline">在视觉文化与身份认同之间，寻找传统与当代的转译方式。</p>
+
+  <div class="welcome-actions">
+    <a href="#cat-tiles" class="btn-solid">
+      <span data-i18n="hero_cta">查看作品</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <a href="about.html" class="btn-line" data-i18n="intro_more">完整履历</a>
   </div>
 </header>
-
-<section class="intro">
-  <div class="intro-grid">
-    <div class="reveal">
-      <div class="kicker" data-i18n="intro_kicker">关于我</div>
-      <h2 class="intro-heading hand-underline" data-lang-zh="研究驱动的视觉实践" data-lang-en="A research-led visual practice">研究驱动的视觉实践</h2>
-    </div>
-    <div class="reveal">
-      <p class="intro-bio" data-i18n="intro_bio"></p>
-      <a href="about.html" class="btn-line intro-more" data-i18n="intro_more">完整履历</a>
-    </div>
-  </div>
-</section>
 
 <section class="featured" id="cat-tiles-section">
   <div class="section-head reveal">
     <div>
-      <div class="kicker" data-i18n="work_section_kicker">作品</div>
       <h2 data-i18n="work_section_heading">作品分类</h2>
     </div>
   </div>
@@ -67,7 +74,6 @@
 <section class="featured">
   <div class="section-head reveal">
     <div>
-      <div class="kicker" data-i18n="featured_kicker">精选作品</div>
       <h2 data-i18n="featured_heading">精选项目</h2>
       <p class="sec-desc" data-i18n="featured_desc">从可穿戴装置到儿童教育提案，几件贯穿身体、自然与叙事的代表作品。</p>
     </div>
@@ -77,29 +83,46 @@
 
 <section class="contact-cta reveal">
   <div class="kicker" data-i18n="footer_contact_kicker">联系</div>
-  <h2 data-lang-zh="一起做点什么" data-lang-en="Let's make something">一起做点什么</h2>
-  <a class="email" href="mailto:tusizi928@gmail.com">tusizi928@gmail.com</a>
+  <div class="contact-links">
+    <a class="email" href="mailto:yifan.lyu007@gmail.com">yifan.lyu007@gmail.com</a>
+    <a class="email" href="https://instagram.com/111fannnn" target="_blank" rel="noopener">Instagram · @111fannnn</a>
+  </div>
 </section>
 
 <footer class="site-footer">
   <div class="foot-left">
-    <span class="page-index">© <span id="year"></span> Ifa Lyu</span>
+    <span class="page-index">© <span id="year"></span> Yifan Lyu</span>
     <span data-i18n="footer_rights">保留所有权利。</span>
-  </div>
-  <div class="foot-links">
-    <a href="mailto:tusizi928@gmail.com">Email</a>
-    <span>WeChat · tusizi928</span>
   </div>
 </footer>
 
-<script src="js/data.js?v=23"></script>
-<script src="js/main.js?v=23"></script>
-<script src="js/gallery.js?v=23"></script>
-<script src="js/home.js?v=23"></script>
+<div class="confirm-modal" id="photo-confirm-modal" aria-hidden="true">
+  <div class="confirm-backdrop" data-confirm-close></div>
+  <div class="confirm-card win">
+    <div class="win-titlebar">
+      <span class="win-icon"></span>
+      <span class="win-title" data-i18n="photo_confirm_title">跳转提示</span>
+      <div class="win-controls"><span data-confirm-close>x</span></div>
+    </div>
+    <div class="win-body confirm-body">
+      <p data-i18n="photo_confirm_body">即将离开本站，前往一个独立的摄影作品网站。</p>
+      <div class="confirm-actions">
+        <button type="button" class="btn-line" data-confirm-close data-i18n="photo_confirm_cancel">取消</button>
+        <button type="button" class="btn-solid" id="photo-confirm-ok" data-i18n="photo_confirm_ok">继续前往</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/data.js?v=60"></script>
+<script src="js/welcome-pieces.js?v=60"></script>
+<script src="js/main.js?v=60"></script>
+<script src="js/gallery.js?v=60"></script>
+<script src="js/home.js?v=60"></script>
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
   function applyInlineLang() {
-    const lang = document.documentElement.getAttribute("data-lang") || "zh";
+    const lang = document.documentElement.getAttribute("data-lang") || "en";
     document.querySelectorAll("[data-lang-zh]").forEach((el) => {
       el.textContent = lang === "zh" ? el.dataset.langZh : el.dataset.langEn;
     });

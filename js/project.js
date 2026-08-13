@@ -3,7 +3,7 @@
 
 (function () {
   function lang() {
-    return document.documentElement.getAttribute("data-lang") || "zh";
+    return document.documentElement.getAttribute("data-lang") || "en";
   }
 
   function getProject() {
@@ -13,12 +13,15 @@
 
   function renderHero(p, l) {
     const c = window.CATEGORIES.find((x) => x.slug === p.category);
-    document.title = `${p.title[l]} — Ifa Lyu`;
+    document.title = `${p.title[l]} — Yifan Lyu`;
     document.getElementById("project-cat").innerHTML =
       `<span class="dot" style="background:var(--c-${p.category})"></span>${l === "zh" ? c.zh : c.en}${p.year ? " · " + p.year : ""}`;
     document.getElementById("project-title").textContent = p.title[l];
     document.getElementById("project-desc").textContent = p.desc[l];
     document.getElementById("project-tags").innerHTML = p.tags[l].map((t) => `<span>${t}</span>`).join("");
+    // Section index numbers ("01 / 03") pick up each project's own theme
+    // color when set, falling back to its category color otherwise.
+    document.documentElement.style.setProperty("--project-color", p.color || `var(--c-${p.category})`);
   }
 
   let flatMedia = [];

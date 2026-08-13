@@ -11,7 +11,7 @@ window.CATEGORIES = [
   { slug: "shuji", zh: "书籍设计", en: "Book Design", num: "03",
     desc: { zh: "从手工书到概念出版物，记录旅途、时间与私人记忆的装帧实验。", en: "From handmade journals to concept publications, bookbinding experiments recording travel, time and personal memory." } },
   { slug: "vi", zh: "展览设计", en: "Exhibition Design", num: "04",
-    desc: { zh: "视觉识别与展览物料设计，从主视觉海报延伸至导视系统与限定周边。", en: "Visual identity and exhibition collateral, from key visual posters through to wayfinding systems and limited-edition merchandise." } },
+    desc: { zh: "视觉识别与展览物料设计，从主视觉海报延伸至导视系统与限定周边。", en: "Visual identity and exhibition collateral, from key visual posters through to wayfinding systems and limited‑edition merchandise." } },
   { slug: "yingxiang", zh: "动画视频", en: "Animation & Video", num: "05",
     desc: { zh: "动画与影像作品，用镜头语言讲述AI、自然与情感之间的故事。", en: "Animation and film work using the language of the camera to tell stories between AI, nature and emotion." } },
   { slug: "chanpin", zh: "产品设计", en: "Product Design", num: "06",
@@ -27,6 +27,7 @@ window.STRINGS = {
   nav_about: { zh: "简历", en: "Resume" },
   nav_home: { zh: "首页", en: "Home" },
   nav_featured: { zh: "精选项目", en: "Featured" },
+  nav_photography: { zh: "摄影", en: "Photography" },
 
   hero_role: {
     zh: "视觉艺术家 / 视觉传达设计师",
@@ -39,10 +40,24 @@ window.STRINGS = {
   hero_cta: { zh: "查看作品", en: "View Work" },
   hero_scroll: { zh: "向下滚动", en: "Scroll" },
 
+  /* three extra floating note-window lines on the homepage hero */
+  hero_extra: {
+    zh: [
+      "本科毕业于四川美术学院，现就读于伦敦大学金史密斯学院。",
+      "我尝试在实验性视觉语言与社会人文议题之间的连接。",
+      "这个网站包括我近5年来的作品。",
+    ],
+    en: [
+      "BA from Sichuan Fine Arts Institute — now at Goldsmiths, University of London.",
+      "I look for connections between experimental visual language and social-humanistic issues.",
+      "This site holds my work from the past five years.",
+    ],
+  },
+
   intro_kicker: { zh: "关于我", en: "Introduction" },
   intro_bio: {
-    zh: "吕逸凡（Ifa Lyu）是一名活跃于平面设计、出版物与装置之间的视觉艺术家与设计师。她的创作围绕视觉文化、文化遗产与身份认同展开，以研究驱动的实践方法，将传统文化知识转译为当代视觉叙事。现就读于伦敦大学金史密斯学院 MA Design: Expanded Practice，本科毕业于四川美术学院视觉传达设计专业，专业排名连续四年位列前 1%。作品曾获华灿奖全国一等奖，并与腾讯 × 金史密斯学院联合项目合作，产出获奖动画装置作品。",
-    en: "Ifa Lyu is a visual artist and designer working across graphic design, publication and installation. Her research-led practice explores the relationship between visual culture, cultural heritage and identity, translating traditional knowledge into contemporary visual narratives. She is currently pursuing an MA in Design: Expanded Practice at Goldsmiths, University of London, following a BA in Visual Communication Design from the Sichuan Fine Arts Institute, where she ranked in the top 1% of her cohort for four consecutive years. Her work has received the National First Prize at the Huacan Design Award, and she has collaborated with Tencent × Goldsmiths on an award-winning animated installation.",
+    zh: "Hii，我是Yifan，一个喜欢摄影的设计师。我的作品涵盖交互设计、插画、书籍设计、展览以及商业海报等多个领域。在这里，你可以看到我对不同视觉媒介的探索。欢迎随时与我联系。",
+    en: "Hii, I'm Yifan — a designer who loves photography. My work spans interaction design, illustration, book design, exhibitions, and commercial posters. Here, you can see my exploration of different visual media. Feel free to reach out anytime.",
   },
   intro_more: { zh: "完整履历", en: "Full bio" },
 
@@ -98,7 +113,11 @@ window.STRINGS = {
   welcome_iam: { zh: "我是", en: "I'm" },
   work_section_kicker: { zh: "作品", en: "Work" },
   work_section_heading: { zh: "作品分类", en: "Browse by Category" },
-  photography: { zh_en_label: { zh: "摄影作品", en: "Photography" } },
+  photography: { zh_en_label: { zh: "摄影网站", en: "Photography Site" } },
+  photo_confirm_title: { zh: "跳转提示", en: "Leaving this site" },
+  photo_confirm_body: { zh: "即将离开本站，前往一个独立的摄影作品网站。", en: "You're about to leave this portfolio for a separate photography website." },
+  photo_confirm_ok: { zh: "继续前往", en: "Continue" },
+  photo_confirm_cancel: { zh: "取消", en: "Cancel" },
 };
 
 /* Education, research experience, awards for the About page */
@@ -284,8 +303,10 @@ window.ABOUT = {
     hobbies: { zh: ["摄影", "写作"], en: ["Photography", "Writing"] },
   },
   contact: {
-    email: "tusizi928@gmail.com",
+    email: "yifan.lyu007@gmail.com",
     wechat: "tusizi928",
+    instagram: "@111fannnn",
+    instagramUrl: "https://instagram.com/111fannnn",
   },
 };
 
@@ -640,6 +661,7 @@ window.PROJECTS = [
     title: { zh: "onon 青年艺术节 VI设计", en: "onon Youth Art Festival — VI Design" },
     year: 2024,
     tags: { zh: ["VI设计", "字体设计"], en: ["Brand Identity", "Typography"] },
+    color: "#e5241a",
     desc: {
       zh: "2024年onon青年艺术节视觉识别设计，以荧光撞色的数字化字体系统构建动态视觉规则，延展至主视觉海报、导视与文创周边。",
       en: "Visual identity for the 2024 onon Youth Art Festival — a fluorescent, glitch-textured type system built into modular visual rules, extended across posters, wayfinding and festival merchandise.",
@@ -672,7 +694,7 @@ window.PROJECTS = [
     tags: { zh: ["VI设计", "展览设计"], en: ["Brand Identity", "Exhibition Design"] },
     desc: {
       zh: "第九届重庆市美术作品展览暨第十四届全国美术作品展览的主视觉与物料设计，以红色调与传统纹样重构展览的视觉气质，应用于海报、导视与限定周边。",
-      en: "Key visual and collateral design for the 9th Chongqing / 14th National Art Exhibition — a red-toned visual language rooted in traditional pattern, carried across posters, signage and limited-edition merchandise.",
+      en: "Key visual and collateral design for the 9th Chongqing / 14th National Art Exhibition — a red-toned visual language rooted in traditional pattern, carried across posters, signage and limited‑edition merchandise.",
     },
     cover: "assets/img/vi/reporting-to-the-people/01.webp",
     sections: [
@@ -708,6 +730,7 @@ window.PROJECTS = [
     title: { zh: "Harmony of Essence", en: "Harmony of Essence" },
     year: null,
     tags: { zh: ["交互装置", "3D"], en: ["Interactive Installation", "3D"] },
+    color: "#5b3a1a",
     coverHome: "assets/img/jiaohu/harmony-of-essence/04.webp",
     desc: {
       zh: "以人类情绪波动为灵感的可穿戴装置，通过3D建模与流体渲染将情绪转化为可视化的有机形态，探索身体、记忆与自然材料之间的循环关系。",

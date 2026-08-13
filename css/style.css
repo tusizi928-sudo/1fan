@@ -1,5 +1,5 @@
 /* =========================================================================
-   Ifa Lyu — Portfolio
+   Yifan Lyu — Portfolio
    Design system: cool pale ground, italic serif display type mixed with a
    grotesk sans, a glossy multi-hue accent system (echoing the 3D-lettered
    "Welcome" key art), hand-marked details.
@@ -8,18 +8,32 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Noto+Serif+SC:wght@500;600&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&family=Yellowtail&family=Noto+Sans+SC:wght@300;400;500;600&display=swap");
 
 :root {
-  --bg: #eef1f4;
-  --bg-soft: #e2e8ed;
+  --bg: #eef0f0;
+  --bg-soft: #e3e6e5;
   --card: #ffffff;
   --ink: #1b2430;
   --ink-70: rgba(27, 36, 48, 0.72);
   --ink-50: rgba(27, 36, 48, 0.52);
-  --line: #d9dfe5;
-  --line-strong: rgba(27, 36, 48, 0.26);
-  --accent: #d1531f;
-  --accent-2: #8fc0e8;
-  --accent-pale: #ffe6d9;
-  --accent-grad: linear-gradient(125deg, #8fc0e8 0%, #d1531f 55%, #ab8f52 100%);
+  --line: rgba(120, 145, 200, 0.28);
+  --line-strong: rgba(70, 90, 140, 0.32);
+  --accent: #0369a1;
+  --accent-warm: #b91c1c;
+  --accent-warm-border: rgba(185, 28, 28, .35);
+  --accent-2: #38bdf8;
+  --cat-heading: #5b6fc4; /* single blue-violet used for category headings/folder names — not per-category, just one consistent color */
+  --accent-pale: #e0f2fe;
+  --accent-grad: linear-gradient(125deg, #7dd3fc 0%, #38bdf8 45%, #c084fc 100%);
+  --purple: #6b21a8;
+  --purple-2: #c084fc;
+  --purple-pale: #f3e8ff;
+
+  /* neutral gray-white glass — nav, panels, cards, buttons */
+  --glass-grad: linear-gradient(135deg, rgba(255,255,255,.88) 0%, rgba(238,239,240,.68) 45%, rgba(226,228,232,.55) 75%, rgba(255,255,255,.88) 100%);
+  --glass-border: rgba(120, 130, 145, 0.28);
+  /* white-glass, same material as the buttons — folder tiles + feature cards */
+  --folder-grad: linear-gradient(180deg, #ffffff 0%, #f4f5f7 45%, #e3e5ea 55%, #ffffff 100%);
+  /* deep, low-shine graphite text treatment for tile numbers etc. */
+  --metal-grad: linear-gradient(180deg, #4b5361 0%, #333a45 45%, #3d4451 55%, #262b34 100%);
 
   --c-yingxiang: #d1531f;
   --c-shouhui: #4f8f52;
@@ -43,15 +57,37 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
+/* Work-listing and project-detail pages keep the warm red accent; the
+   homepage and resume page stay on the cool blue --accent default. */
+.page-work, .page-project { --accent: var(--accent-warm); }
+
 body {
   margin: 0;
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(at 10% 10%, rgba(255, 255, 255, 0.6) 0px, transparent 55%),
+    radial-gradient(at 90% 90%, rgba(0, 0, 0, 0.02) 0px, transparent 55%);
+  background-attachment: fixed;
   color: var(--ink);
   font-family: var(--sans);
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.6;
+  letter-spacing: -0.001em;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  cursor: url("../assets/img/cursor-mosaic.png") 2 2, auto;
+}
+
+/* Reusable frosted-glass panel — used for nav chrome, cards and boxed content
+   so the whole site reads as one consistent Y2K glass system. */
+.glass-panel {
+  background: var(--glass-grad);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 16px 40px rgba(148, 163, 184, 0.20), inset 0 1.5px 0 rgba(255,255,255,.95), inset 0 -2px 4px rgba(186,230,253,.3);
 }
 
 img, video { max-width: 100%; display: block; }
@@ -84,178 +120,480 @@ body::before {
 .cursor-dot.big { width: 46px; height: 46px; background: rgba(209, 83, 31, 0.14); border: 1.5px solid var(--accent); }
 @media (max-width: 900px), (hover: none) { .cursor-dot { display: none; } }
 
-/* -------------------------------------------------------------------- nav */
+/* -------------------------------------------------------------------- nav
+   Classic Mac OS X / early-2000s browser chrome: a thin dark strip on top,
+   then a steel-gray beveled bar of individually pill-shaped, 3D tab
+   buttons — each with its own top highlight and bottom bevel, not a flat
+   flush strip of hairline-divided cells. */
 .site-nav {
   position: sticky; top: 0; left: 0; right: 0; z-index: 500;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px var(--edge);
-  background: rgba(238, 241, 244, 0.92);
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, #eef0f3 0%, #dde1e6 30%, #f4f5f7 55%, #e6e8ec 100%);
+  border-bottom: 1px solid rgba(120, 130, 145, .4);
+  box-shadow: 0 4px 14px rgba(60, 70, 90, 0.14);
+}
+/* nav content is capped to the same --container column as every other
+   section so the nav buttons line up with body text at every viewport
+   width, while the bar's background/shadow still bleeds full width */
+.nav-inner {
+  display: flex; align-items: center;
+  padding: 6px var(--edge) 0;
+  min-height: 50px;
+}
+.site-nav::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+  background: linear-gradient(180deg, #3a3f47 0%, #14161a 100%);
+  z-index: 0; pointer-events: none;
 }
 .site-nav .brand {
-  font-family: var(--serif); font-style: italic; font-weight: 500;
-  font-size: 20px; letter-spacing: .2px;
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  width: 30px; height: 34px; flex-shrink: 0;
 }
-.nav-links { display: flex; align-items: center; gap: 28px; }
+.brand-mark {
+  font-size: 16px; color: var(--ink-50); transition: color .2s, transform .3s;
+}
+.site-nav .brand:hover .brand-mark { color: var(--accent); transform: rotate(90deg); }
+
+.nav-links { display: flex; align-items: stretch; gap: 5px; height: 34px; }
 .nav-links a {
-  font-size: 14px; font-weight: 500; letter-spacing: .02em;
-  position: relative; padding: 4px 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; letter-spacing: .03em; text-transform: uppercase;
+  position: relative; padding: 0 15px; border-radius: 999px;
+  background: linear-gradient(180deg, #fdfdfe 0%, #e9ebee 46%, #cfd3d9 54%, #f6f7f8 100%);
+  border: 1px solid rgba(110, 120, 135, .55);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 1px rgba(30,35,45,.12), 0 1px 2px rgba(30,35,45,.15);
+  color: var(--ink-70); transition: background .18s, color .18s, box-shadow .18s, transform .15s;
 }
-.nav-links a::after {
-  content: ""; position: absolute; left: 0; right: 100%; bottom: -2px; height: 1.5px;
-  background: var(--ink); transition: right .25s ease;
+.nav-links a:hover { transform: translateY(-1px); box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 1px rgba(30,35,45,.12), 0 3px 6px rgba(30,35,45,.22); }
+.nav-links a.current {
+  color: #173764; font-weight: 700;
+  background: linear-gradient(180deg, #eaf2ff 0%, #b9d3f7 46%, #8bb3ec 54%, #dcebfd 100%);
+  box-shadow: inset 0 1px 2px rgba(15,40,90,.35), inset 0 -1px 0 rgba(255,255,255,.6), 0 1px 2px rgba(30,35,45,.15);
 }
-.nav-links a:hover::after, .nav-links a.current::after { right: 0; }
-.nav-links a.current { color: var(--accent); }
-.nav-links-cats a { font-size: 12.5px; }
+/* category links stretch to fill the whole header, evenly spaced */
+.nav-links-cats { flex: 1; justify-content: space-evenly; min-width: 0; }
+.nav-links-cats a { flex: 1; font-size: 11px; padding: 0 6px; white-space: nowrap; }
 .nav-links-simple { display: none; }
 @media (max-width: 980px) {
   .nav-links-cats { display: none; }
   .nav-links-simple { display: flex; }
 }
+@media (max-width: 1180px) {
+  .nav-links-cats a { padding: 0 4px; font-size: 10px; }
+}
 
 .lang-toggle {
-  display: flex; align-items: center; border: 1px solid var(--line-strong);
-  border-radius: 999px; padding: 4px; gap: 2px; font-family: var(--mono);
-  font-size: 12px; letter-spacing: .04em;
+  display: flex; align-items: center;
+  border: 1px solid rgba(110, 120, 135, .5);
+  background: linear-gradient(180deg, #fdfdfe 0%, #e5e7eb 100%);
+  border-radius: 999px; padding: 2px; gap: 2px; font-family: var(--mono);
+  font-size: 11.5px; letter-spacing: .04em;
+  box-shadow: inset 0 1px 2px rgba(60,70,90,.15);
 }
 .lang-toggle button {
-  padding: 5px 12px; border-radius: 999px; transition: background .2s, color .2s;
+  padding: 4px 11px; border-radius: 999px; color: var(--ink-50); transition: background .2s, color .2s, box-shadow .2s;
 }
-.lang-toggle button.active { background: var(--ink); color: var(--bg); }
-.nav-right { display: flex; align-items: center; gap: 22px; }
+.lang-toggle button.active {
+  background: linear-gradient(180deg, #ffffff 0%, #f2f3f5 45%, #e2e4e8 55%, #ffffff 100%);
+  color: var(--ink); box-shadow: inset 0 1px 0 #fff, 0 1px 3px rgba(100,110,130,.25);
+}
+.nav-right { position: relative; z-index: 1; display: flex; align-items: center; gap: 16px; height: 34px; flex: 1; min-width: 0; }
 .nav-burger { display: none; }
 
 @media (max-width: 520px) {
-  .site-nav { padding: 16px 18px; }
-  .nav-right { gap: 12px; }
-  .nav-links { gap: 14px; }
-  .nav-links a { font-size: 12.5px; }
+  .nav-inner { padding: 6px 18px 0; }
+  .nav-right { gap: 8px; }
+  .nav-links a { padding: 0 10px; font-size: 11px; }
   .lang-toggle { font-size: 11px; }
   .lang-toggle button { padding: 4px 9px; }
 }
 
+/* gray-white glass/crystal buttons — soft frosted bevel, no color-coded gel.
+   Solid + outline share the same footprint, just different fill weight. */
+.btn-solid, .btn-line {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 12px 24px; border-radius: 999px;
+  font-size: 13.5px; font-weight: 700;
+  /* gray, slightly reflective label — a soft light hit from above, a faint
+     dark rim below, on a mid-gray base rather than near-black ink */
+  color: #667081;
+  text-shadow: 0 1px 0 rgba(255,255,255,.9), 0 -1px 0 rgba(50,60,75,.12);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
 .btn-solid {
-  display: inline-flex; align-items: center; gap: 10px;
-  background: var(--ink); color: var(--bg); padding: 14px 26px; border-radius: 999px;
-  font-size: 14px; font-weight: 600; transition: transform .25s ease, background .25s;
+  background: linear-gradient(180deg, #ffffff 0%, #f4f5f7 45%, #e3e5ea 55%, #ffffff 100%);
+  border: 1px solid rgba(148, 163, 184, .45);
+  box-shadow: inset 0 1px 0 #ffffff, 0 3px 10px rgba(100, 110, 130, 0.14);
 }
-.btn-solid:hover { transform: translateY(-2px); background: var(--accent-grad); }
+.btn-solid:hover { transform: translateY(-2px); box-shadow: inset 0 1px 0 #ffffff, 0 10px 20px rgba(100, 110, 130, 0.2); }
 .btn-line {
-  display: inline-flex; align-items: center; gap: 8px;
-  border-bottom: 1.5px solid var(--ink); padding-bottom: 3px;
-  font-size: 14px; font-weight: 600;
+  background: linear-gradient(180deg, #ffffff 0%, #f9f9fa 45%, #f0f1f3 55%, #ffffff 100%);
+  border: 1px solid rgba(148, 163, 184, .3);
+  box-shadow: inset 0 1px 0 #ffffff, 0 2px 8px rgba(100, 110, 130, 0.08);
 }
+.btn-line:hover { transform: translateY(-2px); box-shadow: inset 0 1px 0 #ffffff, 0 8px 16px rgba(100, 110, 130, 0.18); }
 .kicker {
   font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .12em;
   color: var(--ink-50);
 }
 
-/* -------------------------------------------------------------- welcome hero */
+/* ============================================================ welcome hero
+   The user's own sky-and-grass photo, an iBook with the WELCOME letters
+   swaying on its screen, a scatter of classic silver "Virtual PC Console"
+   note windows kept perfectly upright (no tilt), and a few soap bubbles
+   drifting up on load. */
 .welcome-hero {
-  position: relative; min-height: 92vh; overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
-  padding: 60px var(--edge) 80px;
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  padding: 40px var(--edge) 30px; gap: 8px;
+  background: url("../assets/img/hero/hero-sky-photo2.webp") center top / cover no-repeat;
 }
-/* Photo cards scattered around "Welcome", each tilted at its own fixed angle
-   and gently bobbing in place — a mood-board scatter, not a spin or an orbit. */
-.hero-scatter { position: absolute; inset: 0; z-index: 1; }
+/* ---- soft decorative clouds drifting rightward behind the iBook — the sky
+   photo itself can't be panned (it would expose its edges), so this is a
+   separate overlay layer instead: safe to loop forever at any viewport. ---- */
+.hero-clouds { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+.hero-cloud {
+  position: absolute; left: -30%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,.5) 0%, rgba(255,255,255,.22) 50%, transparent 75%);
+  filter: blur(7px);
+  animation: hero-cloud-drift linear infinite;
+}
+@keyframes hero-cloud-drift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(160vw); }
+}
+@media (prefers-reduced-motion: reduce) { .hero-cloud { display: none; } }
 
-.scatter-item {
-  position: absolute; left: var(--x); top: var(--y); width: var(--w);
-  border-radius: 8px; overflow: hidden;
-  box-shadow: 0 18px 34px -14px rgba(20,27,38,.4);
-  transition: box-shadow .3s, z-index 0s, transform .35s cubic-bezier(.2,.8,.2,1);
-  z-index: 1;
-  animation: scatter-bob var(--dur, 6s) ease-in-out infinite;
-  animation-delay: var(--delay, 0s);
+/* fade the photo into the page background at the bottom edge instead of a hard cut */
+.welcome-hero::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 240px;
+  background: linear-gradient(to bottom,
+    rgba(238,240,240,0) 0%,
+    rgba(238,240,240,.22) 35%,
+    rgba(238,240,240,.55) 62%,
+    rgba(238,240,240,.85) 84%,
+    var(--bg) 100%);
+  pointer-events: none; z-index: 1;
 }
-.scatter-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
-.scatter-item:hover { box-shadow: 0 26px 46px -14px rgba(20,27,38,.5); z-index: 5; animation-play-state: paused; transform: rotate(0deg) scale(1.1) !important; }
-@keyframes scatter-bob {
-  0%, 100% { transform: rotate(var(--r)) translateY(0); }
-  50% { transform: rotate(var(--r)) translateY(-12px); }
-}
-
-.welcome-center { position: relative; z-index: 2; text-align: center; max-width: 700px; }
 .welcome-kicker {
-  font-family: var(--mono); font-size: 12.5px; text-transform: uppercase; letter-spacing: .12em;
-  color: var(--ink-70); margin-bottom: 26px;
+  font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .12em;
+  color: #ffffff; text-shadow: 0 1px 3px rgba(20,40,20,.35);
 }
 
-/* welcome lettering — cursive script */
-.welcome-word {
-  margin: 0; font-family: "Yellowtail", cursive; font-weight: 400;
-  font-size: clamp(64px, 11vw, 132px); line-height: 1.05; color: var(--ink);
-}
-.welcome-word .dot { color: var(--accent); }
+/* ---- the screen scene: iBook centerpiece (enlarged), windows overlapping beside it ---- */
+.crt-scene { position: relative; width: min(1400px, 100%); z-index: 2; }
+.crt-wrap { position: relative; width: min(580px, 56vw); margin: 0 auto; z-index: 3; filter: drop-shadow(0 24px 40px rgba(20,40,20,.3)); }
+.crt-wrap img.crt-monitor-img { width: 100%; height: auto; display: block; }
 
+.crt-screen {
+  position: absolute; left: 17.23%; top: 18.39%; width: 63.87%; height: 46.78%;
+  overflow: hidden;
+  /* letters pinned toward the top of the screen, freeing the lower portion
+     for the bubble-density slider to sit on without covering them */
+  display: flex; align-items: flex-start; justify-content: center;
+  background: #cfe0ea;
+}
+.crt-screen::before {
+  content: ""; position: absolute; inset: -6px; z-index: 0;
+  background: url("../assets/img/hero/sky-clean.webp") center / cover no-repeat;
+  filter: blur(3px);
+  opacity: .85;
+}
+.welcome-3d-wrap { position: relative; width: 100%; aspect-ratio: 2503 / 1490; margin-top: 4%; }
+.wp-dust { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+@property --sway-y { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@property --sway-r { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+@property --mx { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@property --my { syntax: '<length>'; inherits: false; initial-value: 0px; }
+
+.wp-piece {
+  position: absolute; height: auto; display: block;
+  filter: drop-shadow(0 6px 8px rgba(20,27,38,.2));
+  transform: translate(var(--mx, 0px), calc(var(--my, 0px) + var(--sway-y, 0px))) rotate(var(--sway-r, 0deg));
+  /* no CSS transition here on purpose — --mx/--my are already updated every
+     animation frame from JS while the mouse moves (see initHeroParallax),
+     so a transition on the same "transform" property would restart itself
+     ~60x/sec, fighting the already-running welcome-sway keyframe animation
+     and causing visible stutter right as the cursor gets close. The JS
+     eases the mouse-leave reset manually instead. */
+  animation: welcome-sway var(--dur, 4.2s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  will-change: transform;
+}
+@keyframes welcome-sway {
+  0%, 100% { --sway-y: 0px; --sway-r: 0deg; }
+  50% { --sway-y: var(--amp, -8px); --sway-r: var(--rot, 1.4deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wp-piece { animation: none; }
+}
+
+/* ---- soap bubbles drifting up through the scene on load — same backdrop
+   layer as the orbiting photos, behind the computer and windows ---- */
+.hero-bubbles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+.hero-bubble-float {
+  position: absolute; bottom: -8%; z-index: 2; border-radius: 50%; pointer-events: none;
+  opacity: 0;
+  /* soap-film iridescence: picks up a bit of the sky/grass scene it drifts
+     through — blue, green and a touch of pink — over a bright highlight. */
+  background:
+    radial-gradient(circle at 30% 26%, rgba(255,255,255,.9) 0%, rgba(255,255,255,.2) 18%, transparent 32%),
+    radial-gradient(circle at 70% 72%, rgba(110,190,255,.4) 0%, transparent 54%),
+    radial-gradient(circle at 78% 28%, rgba(160,255,180,.3) 0%, transparent 46%),
+    radial-gradient(circle at 22% 74%, rgba(255,180,225,.24) 0%, transparent 50%),
+    rgba(255,255,255,.1);
+  border: 1.5px solid rgba(255,255,255,.7);
+  box-shadow: inset 0 0 16px rgba(255,255,255,.4), inset 0 0 30px rgba(130,200,255,.2), 0 6px 16px rgba(20,40,20,.1);
+  /* backwards fill so the pre-delay state is genuinely the 0% keyframe
+     (invisible, unrisen) instead of the element's own base style — without
+     this, a bubble sits fully visible at rest until its delay elapses. */
+  animation: bubble-rise linear infinite;
+  animation-fill-mode: backwards;
+}
+@keyframes bubble-rise {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  8% { opacity: .85; }
+  90% { opacity: .6; }
+  100% { transform: translateY(calc(-1 * var(--rise, 700px))) translateX(var(--drift, 30px)); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .hero-bubble-float { display: none; } }
+
+/* ---- crystal-glass popup windows, scattered around, always upright — same
+   glossy-bevel material family as the buttons and folder tabs, with a
+   diagonal shine sweep for a proper "亮晶晶" glinting read ---- */
+.win {
+  position: relative;
+  display: block; border-radius: 7px; overflow: hidden;
+  background: linear-gradient(165deg, #ffffff 0%, #f2f7ff 38%, #dfeafb 58%, #ffffff 100%);
+  border: 1px solid rgba(255,255,255,.9);
+  box-shadow:
+    0 18px 36px -14px rgba(15,25,45,.5),
+    inset 0 1.5px 0 rgba(255,255,255,.95),
+    inset 0 0 0 1px rgba(170,195,230,.45);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.win::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 3;
+  background: linear-gradient(115deg,
+    rgba(255,255,255,.7) 0%, rgba(255,255,255,.18) 18%,
+    transparent 32%, transparent 68%,
+    rgba(255,255,255,.4) 86%, rgba(255,255,255,.08) 100%);
+  mix-blend-mode: screen;
+}
+.win:hover { transform: translateY(-3px); }
+.win-titlebar {
+  position: relative; overflow: hidden; z-index: 2;
+  display: flex; align-items: center; gap: 6px; padding: 3px 4px 3px 6px;
+  background: linear-gradient(180deg, #ffffff 0%, #eef4fc 45%, #d9e6f7 55%, #ffffff 100%);
+  border-bottom: 1px solid rgba(150,175,210,.6);
+  cursor: grab;
+}
+.win.dragging, .sys-note.dragging { z-index: 50; box-shadow: 0 26px 50px -12px rgba(10,15,15,.55); }
+.win.dragging .win-titlebar, .sys-note.dragging .win-titlebar { cursor: grabbing; }
+.win-icon {
+  width: 12px; height: 12px; flex-shrink: 0; background: #6fa8dc;
+  border: 1px solid #3d6fa1; border-radius: 2px;
+}
+.win-title { flex: 1; font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0; color: #2c2c28; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.win-controls { display: flex; gap: 2px; position: relative; }
+.win-controls span {
+  width: 14px; height: 13px; display: flex; align-items: center; justify-content: center;
+  font-size: 9px; line-height: 1; font-family: var(--sans); font-weight: 700;
+  background: linear-gradient(180deg, #ffffff 0%, #e2e0d6 100%); color: #4a4a44;
+  border: 1px solid #999488; border-radius: 2px;
+}
+.win-controls span:last-child { color: #c22; }
+.win-menubar {
+  position: relative; z-index: 2;
+  display: flex; gap: 10px; padding: 3px 8px;
+  background: rgba(247,250,255,.9); border-bottom: 1px solid rgba(210,222,240,.8);
+  font-family: var(--sans); font-size: 10.5px; color: #4a4a44;
+}
+.win-body { position: relative; z-index: 2; padding: 12px 14px; background: transparent; color: var(--ink); }
+
+.scatter-windows { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 6px; z-index: 2; }
+.scatter-windows .win { width: clamp(190px, 42vw, 230px); }
+.scatter-windows .win-body { font-size: 12.5px; line-height: 1.55; }
+
+/* ---- bubble-density slider — sits on the lower part of the iBook screen
+   itself (the letters are pinned to the top of the screen to clear it) ---- */
+.hero-bubble-slider {
+  position: relative; z-index: 4; display: flex; align-items: center; gap: 8px; overflow: hidden;
+  margin: 10px auto 0; padding: 5px 12px; width: fit-content;
+  background: linear-gradient(165deg, rgba(255,255,255,.92) 0%, rgba(242,247,255,.85) 38%, rgba(223,234,251,.8) 58%, rgba(255,255,255,.92) 100%);
+  border: 1px solid rgba(255,255,255,.9); border-radius: 999px;
+  box-shadow: 0 10px 22px -10px rgba(15,25,45,.4), inset 0 1.5px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(170,195,230,.4);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  font-family: var(--mono); font-size: 10.5px; color: var(--ink-70); letter-spacing: .04em;
+}
+.hero-bubble-slider::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg,
+    rgba(255,255,255,.7) 0%, rgba(255,255,255,.15) 20%,
+    transparent 36%, transparent 64%,
+    rgba(255,255,255,.35) 84%, rgba(255,255,255,.06) 100%);
+  mix-blend-mode: screen;
+}
+.hero-bubble-slider input[type="range"] {
+  width: 100px; accent-color: var(--accent);
+}
+.hero-bubble-slider .bubble-pct { min-width: 2.6em; text-align: right; font-weight: 700; color: var(--ink); }
+
+/* ---- compact "System Protection"-style toast for the lead intro line —
+   same crystal-glass material as .win ---- */
+.sys-note {
+  position: relative;
+  display: block; border-radius: 7px; overflow: hidden;
+  background: linear-gradient(165deg, #ffffff 0%, #f2f7ff 38%, #dfeafb 58%, #ffffff 100%);
+  border: 1px solid rgba(255,255,255,.9);
+  box-shadow:
+    0 18px 36px -14px rgba(15,25,45,.5),
+    inset 0 1.5px 0 rgba(255,255,255,.95),
+    inset 0 0 0 1px rgba(170,195,230,.45);
+}
+.sys-note::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 3;
+  background: linear-gradient(115deg,
+    rgba(255,255,255,.7) 0%, rgba(255,255,255,.18) 18%,
+    transparent 32%, transparent 68%,
+    rgba(255,255,255,.4) 86%, rgba(255,255,255,.08) 100%);
+  mix-blend-mode: screen;
+}
+.sys-note .win-titlebar { padding: 3px 4px 3px 6px; }
+.sys-note .sys-body { position: relative; z-index: 2; display: flex; align-items: flex-start; gap: 8px; padding: 10px 12px; }
+.sys-note .sys-icon {
+  width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+  background: radial-gradient(circle at 35% 30%, #7ec3f5, #1c6fc2 70%);
+  color: #fff; font-family: var(--serif); font-style: italic; font-weight: 700; font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+}
+.sys-note .sys-text { font-family: var(--sans); font-size: 11px; line-height: 1.5; color: #2c2c28; }
+
+@media (min-width: 980px) {
+  .crt-scene { min-height: 555px; }
+  .crt-wrap { position: absolute; left: 50%; top: 4px; transform: translateX(-50%); }
+  .scatter-windows { position: absolute; inset: 0; margin-top: 0; display: block; }
+  .scatter-windows .win,
+  .scatter-windows .sys-note {
+    position: absolute; left: var(--slot-x); top: var(--slot-y); transform: none;
+    z-index: var(--slot-z, 2);
+  }
+  .scatter-windows .win { width: var(--slot-w, 210px); }
+  .scatter-windows .sys-note { width: var(--slot-w, 200px); }
+  /* positioned relative to .crt-wrap now (it's nested inside it) — sits in
+     the lower part of the screen, below the top-pinned letters; if space
+     runs short it's fine to spill onto the Apple logo below the screen */
+  .hero-bubble-slider {
+    position: absolute; left: 50%; top: 60%; transform: translateX(-50%) scale(.88);
+    margin: 0; z-index: 5; font-size: 9px; padding: 3px 9px; gap: 5px;
+  }
+  .hero-bubble-slider input[type="range"] { width: 64px; }
+}
+
+/* sit above the bubble layer (z-index 2) so drifting bubbles never wash
+   out the name, tagline or buttons */
 .welcome-sub {
-  margin-top: 30px; font-size: clamp(16px, 2vw, 20px); color: var(--ink);
+  position: relative; z-index: 3;
+  font-size: clamp(15px, 2vw, 18px); color: #ffffff; text-shadow: 0 1px 3px rgba(20,40,20,.4); text-align: center;
 }
 .welcome-sub strong { font-family: var(--serif); font-style: italic; font-weight: 600; }
-.welcome-tagline { margin-top: 12px; font-size: clamp(14px, 1.5vw, 16px); color: var(--ink-70); max-width: 46ch; margin-left: auto; margin-right: auto; }
-.welcome-actions { margin-top: 34px; display: flex; align-items: center; justify-content: center; gap: 22px; }
+.welcome-tagline {
+  position: relative; z-index: 3;
+  font-size: clamp(13px, 1.5vw, 15px); color: rgba(255,255,255,.9); text-shadow: 0 1px 3px rgba(20,40,20,.4); max-width: 60ch; text-align: center;
+}
+.welcome-actions { position: relative; z-index: 3; display: flex; align-items: center; justify-content: center; gap: 16px; }
 
 @media (max-width: 720px) {
-  .welcome-hero { min-height: 82vh; padding-top: 40px; }
-  .scatter-item { width: calc(var(--w) * .62) !important; }
-  .welcome-word { font-size: clamp(48px, 15vw, 88px); }
+  .welcome-hero { padding-top: 40px; }
 }
 
-/* ----------------------------------------------------------------- intro */
-.intro {
-  padding: 60px var(--edge) 100px; border-top: 1px solid var(--line);
-}
-.intro-grid {
-  max-width: var(--container); margin: 0 auto;
-  display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 60px;
-}
-.intro-heading {
-  font-family: var(--serif); font-style: italic; font-weight: 400;
-  font-size: clamp(28px, 3.4vw, 44px); margin-top: 14px; line-height: 1.15;
-}
+/* ----------------------------------------------------------------- intro
+   (still used standalone on about.html's page-hero) */
 .intro-bio {
-  font-size: clamp(16px, 1.8vw, 19px); line-height: 1.7; color: var(--ink); text-wrap: pretty;
+  font-size: clamp(16px, 1.8vw, 19px); line-height: 1.7; color: var(--ink);
 }
-.intro-more { margin-top: 26px; display: inline-block; }
 
 @media (max-width: 860px) {
   .intro-grid { grid-template-columns: 1fr; gap: 24px; }
 }
 
 /* ------------------------------------------------------- category groups */
-.cat-groups { max-width: var(--container); margin: 0 auto; display: flex; flex-direction: column; gap: 64px; }
+.cat-groups { max-width: var(--container); margin: 0 auto; padding: 0 var(--edge); display: flex; flex-direction: column; gap: 64px; }
 .cat-group-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 22px; }
 .cat-group-head .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
 .cat-group-head h3 {
   font-family: var(--serif); font-style: italic; font-weight: 500;
   font-size: clamp(22px, 2.6vw, 30px);
+  /* one consistent blue-violet instead of flat black — kept to a single
+     color (not per-category) so the list doesn't turn into a rainbow */
+  color: var(--cat-heading);
 }
 .cat-group-head .cat-en { font-family: var(--mono); font-size: 11.5px; color: var(--ink-50); text-transform: uppercase; letter-spacing: .06em; }
 
-/* ------------------------------------------------------ category tile grid */
+/* ------------------------------------------------------ category tile grid
+   Back to a grid of individual folder icons (crystal-gold material) with
+   preview photos peeking out of the top on hover — the wide cascading-tab
+   version didn't land, this is closer to the reference. */
 .cat-tile-grid {
-  max-width: var(--container); margin: 0 auto;
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  max-width: var(--container); margin: 0 auto; padding: 0 var(--edge);
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px 16px;
 }
 .cat-tile {
-  display: block; padding: 24px 20px; border: 1px solid var(--line-strong); border-radius: 8px;
-  background: var(--card); transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s, border-color .3s;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  position: relative; padding-top: 40px; z-index: 1;
+  transition: transform .3s cubic-bezier(.2,.8,.2,1), z-index 0s;
 }
-.cat-tile:hover { transform: translateY(-5px); box-shadow: 0 24px 44px -24px rgba(20,27,38,.35); border-color: var(--tile-c, var(--accent)); }
+.cat-tile:hover { transform: translateY(-5px); z-index: 20; }
+
+/* Photos tucked "inside" the folder — hidden above the icon, they slide down
+   and fan out when the tile is hovered, as if the folder just opened. Kept
+   close to the icon itself (not the old, far-away 74px gap). */
+.cat-tile-peek {
+  position: absolute; left: 8%; right: 8%; bottom: 100%; height: 56px;
+  z-index: 1; pointer-events: none;
+}
+.cat-tile-peek img {
+  position: absolute; bottom: 0; width: 56px; height: 56px; object-fit: cover;
+  border-radius: 6px; border: 2px solid var(--card); box-shadow: 0 8px 18px -6px rgba(20,27,38,.35);
+  transform: translateY(85%) scale(.85) rotate(calc((var(--pi, 0) - 1) * 8deg));
+  opacity: 0; transition: transform .4s cubic-bezier(.2,.8,.2,1), opacity .3s;
+  transition-delay: calc(var(--pi, 0) * .05s);
+}
+.cat-tile-peek img:nth-child(1) { left: 0; }
+.cat-tile-peek img:nth-child(2) { left: 50%; margin-left: -28px; z-index: 2; }
+.cat-tile-peek img:nth-child(3) { right: 0; }
+.cat-tile:hover .cat-tile-peek img { transform: translateY(0) scale(1) rotate(calc((var(--pi, 0) - 1) * 8deg)); opacity: 1; }
+
+/* The folder icon — a proper inline SVG (see folderSvg() in gallery.js):
+   a darker back flap with the tab, a lighter crystal-glass front pocket
+   layered over it for real depth. Lifts and tilts open (with a colored
+   glow in the category's own color) on hover. */
+.cat-tile-icon {
+  width: 96px; aspect-ratio: 100 / 78; margin: 0 auto 12px;
+  filter: drop-shadow(0 10px 14px rgba(150,110,10,.28));
+  transition: transform .3s cubic-bezier(.2,.8,.2,1), filter .3s;
+  transform-origin: 50% 100%;
+}
+.cat-tile-icon-svg { width: 100%; height: 100%; display: block; opacity: .88; }
+.cat-tile:hover .cat-tile-icon {
+  transform: scale(1.08) rotate(-3deg) translateY(-3px);
+  filter: drop-shadow(0 16px 22px var(--tile-c, rgba(150,110,10,.4)));
+}
+.cat-tile-folder { position: relative; z-index: 2; }
 .cat-tile-num {
-  font-family: var(--serif); font-style: italic; font-weight: 600; color: var(--accent);
-  font-size: clamp(24px, 2.2vw, 30px); margin-bottom: 12px;
+  font-family: var(--serif); font-style: italic; font-weight: 700;
+  font-size: clamp(19px, 1.7vw, 23px); margin-bottom: 4px;
+  background: var(--metal-grad); background-clip: text; -webkit-background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 1px rgba(20,24,30,.15));
 }
-.cat-tile-name { font-family: var(--serif); font-weight: 500; font-size: 16.5px; }
+.cat-tile-name { font-family: var(--serif); font-weight: 500; font-size: 15.5px; color: var(--cat-heading); }
 .cat-tile-en { margin-top: 4px; font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-50); }
-.cat-tile-external { border-style: dashed; }
 
 @media (max-width: 900px) {
-  .cat-tile-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-  .cat-tile { padding: 22px 18px; }
+  .cat-tile-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 14px; }
 }
 @media (max-width: 480px) {
   .cat-tile-grid { grid-template-columns: 1fr; }
@@ -271,11 +609,13 @@ body::before {
   display: flex; align-items: baseline; gap: 12px;
 }
 .cat-project-title .num { font-family: var(--serif); font-style: italic; color: var(--accent); font-size: 1em; }
-.cat-project-desc { margin-top: 10px; font-size: 14px; line-height: 1.85; color: var(--ink-70); text-wrap: pretty; }
+.cat-project-desc { margin-top: 10px; font-size: 14px; line-height: 1.7; color: var(--ink-70); }
 .cat-project-head .tag-row { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; }
 .cat-project-head .tag-row span {
   font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em;
-  border: 1px solid var(--line-strong); padding: 4px 10px; border-radius: 999px; color: var(--ink-70);
+  background: rgba(255,255,255,.55); border: 1px solid var(--accent-warm-border);
+  padding: 4px 10px; border-radius: 999px; color: var(--accent);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
 }
 
 /* ----------------------------------------------------------------- contact */
@@ -287,39 +627,77 @@ body::before {
   font-family: var(--serif); font-style: italic; font-weight: 500; color: var(--ink);
   font-size: clamp(26px, 4vw, 40px); line-height: 1.1; margin-top: 10px;
 }
+.contact-cta .contact-links { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 14px 16px; }
 .contact-cta a.email {
-  display: inline-block; margin-top: 18px; font-size: clamp(15px, 1.6vw, 18px); font-weight: 600;
-  color: var(--accent); border-bottom: 1.5px solid var(--line-strong);
+  display: inline-block; font-size: clamp(14px, 1.4vw, 16px); font-weight: 600;
+  color: var(--accent); background: rgba(255,255,255,.5); border: 1px solid rgba(56,189,248,.45);
+  padding: 10px 20px; border-radius: 999px;
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 #fff, 0 3px 10px rgba(14,165,233,.12);
+  transition: transform .25s ease, box-shadow .25s ease;
 }
+.contact-cta a.email:hover { transform: translateY(-2px); }
 
 /* ------------------------------------------------------------- featured */
 .featured {
-  padding: 0 var(--edge) 110px;
+  padding: 0 0 110px;
 }
 .section-head {
-  max-width: var(--container); margin: 0 auto 34px;
+  max-width: var(--container); margin: 0 auto 22px; padding: 0 var(--edge);
   display: flex; align-items: flex-end; justify-content: space-between; gap: 20px;
 }
+.section-head > div { width: 100%; }
 .section-head h2 {
   font-family: var(--serif); font-style: italic; font-weight: 400;
-  font-size: clamp(28px, 3.6vw, 46px); margin-top: 10px;
+  font-size: clamp(28px, 3.6vw, 46px); margin-top: 10px; letter-spacing: -0.008em;
 }
 .section-head .see-all { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
-.sec-desc { color: var(--ink-70); font-size: 14.5px; line-height: 1.85; max-width: 820px; margin: 16px 0 0; text-wrap: pretty; }
+.sec-desc { color: var(--ink-70); font-size: 14.5px; line-height: 1.7; max-width: 1000px; margin: 16px 0 0; }
 
-/* ------------------------------------------------------------ feature grid */
+/* ------------------------------------------------------------ feature grid
+   Featured projects read as little app windows — same classic titlebar
+   chrome as the hero note windows — rather than plain glass cards. */
 .feature-grid {
-  max-width: var(--container); margin: 0 auto;
+  max-width: var(--container); margin: 0 auto; padding: 0 var(--edge);
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px;
 }
 .feature-card {
-  display: block; background: var(--card); border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
-  transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s, border-color .3s;
+  display: block;
+  transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s;
+  /* stronger crystal read: brighter inner rim + a soft outer glow tinted
+     with the project's own category color */
+  box-shadow:
+    0 18px 36px -14px rgba(15,25,45,.5),
+    inset 0 1.5px 0 rgba(255,255,255,1),
+    inset 0 0 0 1px rgba(170,195,230,.6),
+    0 0 0 1px rgba(255,255,255,.5);
 }
-.feature-card:hover { transform: translateY(-5px); box-shadow: 0 24px 44px -22px rgba(20,27,38,.32); border-color: var(--tile-c, var(--accent)); }
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 24px 48px -18px rgba(15,20,20,.5),
+    inset 0 1.5px 0 rgba(255,255,255,1),
+    inset 0 0 0 1px rgba(170,195,230,.7),
+    0 0 22px -4px var(--tile-c, transparent);
+}
+.feature-card .win-title { font-family: var(--sans); }
+/* no full-card diagonal shine here (that used to streak across the cover
+   photo at the top-left corner) — the glint instead lives on the text
+   panel below the image, see .feature-card-body::before */
+.feature-card.win::after { content: none; }
 .feature-card img { width: 100%; height: auto; display: block; }
-.feature-card-body { padding: 20px 22px 24px; }
-.feature-card-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+.feature-card-body {
+  position: relative; z-index: 2; padding: 18px 20px 22px;
+  background: transparent; overflow: hidden;
+}
+.feature-card-body::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(200deg,
+    rgba(255,255,255,.6) 0%, rgba(255,255,255,.16) 26%,
+    transparent 48%, transparent 100%);
+  mix-blend-mode: screen;
+}
+.feature-card-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
 .feature-card-title { font-family: var(--serif); font-weight: 600; font-size: 19px; margin-bottom: 8px; }
 .feature-card-desc { font-size: 13.5px; color: var(--ink-70); line-height: 1.7; }
 
@@ -330,33 +708,57 @@ body::before {
 
 /* --------------------------------------------------------------- footer */
 .site-footer {
+  position: relative; overflow: hidden;
   max-width: var(--container); margin: 0 auto;
-  padding: 30px var(--edge) 60px;
+  padding: 30px var(--edge) 40px;
   display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px;
 }
-.site-footer .foot-left { display: flex; flex-direction: column; gap: 4px; font-size: 12.5px; color: var(--ink-50); }
-.site-footer .foot-links { display: flex; align-items: center; gap: 20px; font-size: 13.5px; color: var(--ink-70); }
-.site-footer .foot-links a { color: var(--ink); border-bottom: 1px solid var(--line); }
+.site-footer .foot-left { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 4px; font-size: 12.5px; color: var(--ink-50); }
+
+/* work.html + project.html only: a divider above the footer and a small
+   contact cluster bottom-right (not shown on the homepage, which already
+   has its own contact section, or on the resume page). */
+.site-footer-contact { border-top: 1px solid var(--line); padding-top: 24px; }
+.foot-contact { position: relative; z-index: 2; display: flex; align-items: center; gap: 10px; }
+.foot-contact-item {
+  position: relative;
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-50); background: var(--glass-grad); border: 1px solid var(--glass-border);
+  transition: color .2s, transform .2s, box-shadow .2s;
+}
+.foot-contact-item:hover { color: var(--accent); transform: translateY(-2px); box-shadow: 0 10px 18px -10px rgba(20,27,38,.35); }
+.foot-wechat-tip {
+  position: absolute; bottom: 100%; left: 50%; margin-bottom: 8px; transform: translateX(-50%);
+  background: var(--ink); color: #fff; font-size: 11px; padding: 4px 9px; border-radius: 6px;
+  white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+.foot-wechat-tip.show { opacity: 1; }
 
 /* ----------------------------------------------------------- page hero (work/about) */
-.page-hero { padding: 64px var(--edge) 40px; border-bottom: 1px solid var(--line); }
+.page-hero { max-width: var(--container); margin: 0 auto; padding: 64px var(--edge) 40px; border-bottom: none; }
 .page-hero h1 {
   font-family: var(--serif); font-style: italic; font-weight: 500;
-  font-size: clamp(40px, 7vw, 84px); line-height: 1;
+  font-size: clamp(40px, 7vw, 84px); line-height: 1.02; letter-spacing: -0.01em;
 }
-.page-hero p { margin-top: 16px; max-width: 760px; color: var(--ink-70); font-size: clamp(15px,1.6vw,17px); }
+.page-hero p { margin-top: 16px; color: var(--ink-70); font-size: clamp(15px,1.6vw,17px); line-height: 1.6; }
 
 /* -------------------------------------------------------------- about */
 .about-layout {
   max-width: var(--container); margin: 0 auto; padding: 20px var(--edge) 100px;
   display: grid; grid-template-columns: 200px 1fr; gap: 60px;
 }
-.about-toc { position: sticky; top: 110px; align-self: start; display: flex; flex-direction: column; gap: 12px; }
+.about-toc { position: sticky; top: 64px; align-self: start; display: flex; flex-direction: column; gap: 12px; }
 .about-toc a { font-size: 13.5px; font-weight: 600; color: var(--ink-50); }
 .about-toc a:hover, .about-toc a.active { color: var(--accent); }
 
-.about-section { padding-bottom: 62px; border-bottom: 1px solid var(--line); margin-bottom: 56px; }
-.about-section:last-child { border-bottom: none; }
+.about-section {
+  padding: 34px clamp(20px, 3vw, 40px) 40px; margin-bottom: 28px;
+  background: var(--glass-grad); border: 1px solid var(--glass-border); border-radius: 18px;
+  -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: 0 20px 40px -28px rgba(100,120,180,.35), inset 0 1px 0 rgba(255,255,255,.7);
+}
+.about-section:last-child { margin-bottom: 0; }
 .about-section h2 {
   font-family: var(--serif); font-style: italic; font-weight: 400;
   font-size: clamp(24px, 3vw, 34px); margin-bottom: 28px;
@@ -388,11 +790,19 @@ body::before {
 .skills-row { margin-bottom: 26px; }
 .skills-row h4 { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-50); margin-bottom: 12px; }
 .chip-set { display: flex; flex-wrap: wrap; gap: 10px; }
-.chip { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line-strong); font-size: 13.5px; }
+.chip {
+  padding: 8px 16px; border-radius: 999px; font-size: 13.5px; color: var(--accent);
+  background: rgba(255,255,255,.55); border: 1px solid rgba(56,189,248,.4);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
 
-.contact-block { display: flex; flex-wrap: wrap; gap: 40px; }
+.contact-block { display: flex; flex-wrap: wrap; gap: 16px; }
+.contact-item {
+  padding: 16px 22px; border-radius: 14px; background: rgba(255,255,255,.5);
+  border: 1px solid var(--glass-border); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+}
 .contact-item .label { font-family: var(--mono); font-size: 12px; text-transform: uppercase; color: var(--ink-50); margin-bottom: 8px; }
-.contact-item .value { font-size: clamp(18px, 2.2vw, 24px); font-weight: 600; font-family: var(--serif); font-style: italic; }
+.contact-item .value { font-size: clamp(18px, 2.2vw, 24px); font-weight: 600; font-family: var(--serif); font-style: italic; color: var(--accent); }
 
 @media (max-width: 860px) {
   .about-layout { grid-template-columns: 1fr; }
@@ -407,7 +817,7 @@ body::before {
 
 /* ------------------------------------------------------------ misc */
 .hand-underline {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14'%3E%3Cpath d='M2 9 C40 2, 80 12, 120 6 S180 2, 198 8' fill='none' stroke='%23d1531f' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14'%3E%3Cpath d='M2 9 C40 2, 80 12, 120 6 S180 2, 198 8' fill='none' stroke='%2338bdf8' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: 0 100%; background-size: 100% 10px;
   padding-bottom: 6px;
 }
@@ -424,7 +834,7 @@ body::before {
 .back-link:hover svg { transform: translateX(-3px); }
 
 /* ===================================================== project detail */
-.project-hero { padding: 64px var(--edge) 40px; border-bottom: 1px solid var(--line); }
+.project-hero { max-width: var(--container); margin: 0 auto; padding: 64px var(--edge) 40px; border-bottom: 1px solid var(--line); }
 .project-hero .kicker-row {
   display: flex; align-items: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap;
 }
@@ -435,27 +845,29 @@ body::before {
 .project-hero .cat-tag .dot { width: 7px; height: 7px; border-radius: 50%; }
 .project-hero h1 {
   font-family: var(--serif); font-style: italic; font-weight: 500;
-  font-size: clamp(34px, 6vw, 68px); line-height: 1.05;
+  font-size: clamp(34px, 6vw, 68px); line-height: 1.05; letter-spacing: -0.01em;
 }
 .project-hero .project-desc {
-  margin-top: 20px; max-width: 860px; font-size: clamp(15.5px, 1.7vw, 18px); color: var(--ink-70); line-height: 1.7; text-wrap: pretty;
+  margin-top: 20px; max-width: none; font-size: clamp(15.5px, 1.7vw, 18px); color: var(--ink-70); line-height: 1.7;
 }
 .project-hero .tag-row { margin-top: 20px; display: flex; gap: 8px; flex-wrap: wrap; }
 .project-hero .tag-row span {
   font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
-  border: 1px solid var(--line-strong); padding: 5px 12px; border-radius: 999px; color: var(--ink-70);
+  background: rgba(255,255,255,.55); border: 1px solid var(--accent-warm-border);
+  padding: 5px 12px; border-radius: 999px; color: var(--accent);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
 }
 
-.media-list { max-width: 1040px; margin: 0 auto; padding: 48px var(--edge) 90px; }
+.media-list { max-width: var(--container); margin: 0 auto; padding: 48px var(--edge) 90px; }
 
 .media-section { margin-bottom: 68px; }
 .media-section:last-child { margin-bottom: 0; }
 .section-text { margin: 0 0 20px; max-width: none; }
 .section-text .media-index {
   font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .04em;
-  color: var(--accent); margin-bottom: 10px; font-weight: 600;
+  color: var(--project-color, var(--accent)); margin-bottom: 10px; font-weight: 600;
 }
-.section-text p { font-size: clamp(14.5px, 1.5vw, 16px); line-height: 1.8; color: var(--ink); text-wrap: pretty; }
+.section-text p { font-size: clamp(14.5px, 1.5vw, 16px); line-height: 1.7; color: var(--ink); }
 
 /* single-image entry: enlarged and centered within its column, capped so it never spans edge-to-edge */
 .entry-gallery { max-width: 960px; margin: 0 auto; }
@@ -566,3 +978,27 @@ body::before {
   .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); }
   .lightbox-nav.prev { left: 6px; } .lightbox-nav.next { right: 6px; }
 }
+
+/* ------------------------------------------------------------ confirm modal
+   Same crystal-glass .win material as the hero popup windows, used to warn
+   before leaving the site for the external photography link. */
+.confirm-modal {
+  position: fixed; inset: 0; z-index: 4000; display: none;
+  align-items: center; justify-content: center; padding: 20px;
+}
+.confirm-modal.open { display: flex; }
+.confirm-backdrop {
+  position: absolute; inset: 0; background: rgba(15, 22, 34, .55);
+  -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
+}
+.confirm-card { position: relative; z-index: 1; width: min(380px, 100%); }
+.confirm-card .win-title { flex: 1; }
+/* the titlebar close control is the only functional one on this site (the
+   hero/feature-card versions are decorative), so give it a real click
+   target instead of the tiny 14x13 decorative box */
+.confirm-card .win-controls { padding: 4px; margin: -4px; }
+.confirm-card .win-controls span { width: 20px; height: 18px; cursor: pointer; }
+.confirm-body { padding: 16px 18px 18px; }
+.confirm-body p { font-size: 13.5px; line-height: 1.6; color: var(--ink-70); margin: 0 0 18px; }
+.confirm-actions { display: flex; justify-content: flex-end; gap: 10px; }
+.confirm-actions .btn-line, .confirm-actions .btn-solid { padding: 9px 18px; font-size: 12.5px; }

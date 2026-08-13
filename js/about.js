@@ -2,7 +2,7 @@
 
 (function () {
   function lang() {
-    return document.documentElement.getAttribute("data-lang") || "zh";
+    return document.documentElement.getAttribute("data-lang") || "en";
   }
 
   function renderEducation() {
@@ -117,6 +117,8 @@
   function renderContact() {
     document.getElementById("contact-email").textContent = window.ABOUT.contact.email;
     document.getElementById("contact-email").href = "mailto:" + window.ABOUT.contact.email;
+    document.getElementById("contact-instagram").textContent = window.ABOUT.contact.instagram;
+    document.getElementById("contact-instagram").href = window.ABOUT.contact.instagramUrl;
     document.getElementById("contact-wechat").textContent = window.ABOUT.contact.wechat;
   }
 

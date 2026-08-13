@@ -279,7 +279,7 @@ function bindCategoryLightbox(wrap) {
 window.renderCategoryGroups = function (containerId, projectList, onlySlug) {
   const wrap = document.getElementById(containerId);
   if (!wrap) return;
-  const lang = document.documentElement.getAttribute("data-lang") || "zh";
+  const lang = document.documentElement.getAttribute("data-lang") || "en";
   const cats = onlySlug ? window.CATEGORIES.filter((c) => c.slug === onlySlug) : window.CATEGORIES;
 
   wrap.innerHTML = cats.map((c) => {
@@ -302,27 +302,82 @@ window.renderCategoryGroups = function (containerId, projectList, onlySlug) {
   window.justifyGalleryRows(wrap);
 };
 
-/* Homepage teaser grid: one tile per category + a photography link, 3 per row. */
+/* A proper folder icon — back flap (with tab) + a lighter front pocket
+   layered over it, both crystal-glass gradients matching the button
+   material, natural (not flat) proportions. Built as inline SVG so it's
+   crisp at any size. */
+function folderSvg(uid) {
+  const back = `fb${uid}`;
+  const front = `ff${uid}`;
+  const shine = `fs${uid}`;
+  return `
+  <svg class="cat-tile-icon-svg" viewBox="0 0 100 78" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="${back}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#e79615"/>
+        <stop offset="100%" stop-color="#b96a06"/>
+      </linearGradient>
+      <linearGradient id="${front}" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#fff6d6"/>
+        <stop offset="24%" stop-color="#ffdd7e"/>
+        <stop offset="55%" stop-color="#f8b93c"/>
+        <stop offset="100%" stop-color="#e0900f"/>
+      </linearGradient>
+      <linearGradient id="${shine}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity=".75"/>
+        <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <path d="M4 20 Q4 14 10 14 L40 14 L48 22 L90 22 Q96 22 96 28 L96 68 Q96 74 90 74 L10 74 Q4 74 4 68 Z" fill="url(#${back})" fill-opacity=".92"/>
+    <rect x="4" y="31" width="92" height="43" rx="7" fill="url(#${front})" fill-opacity=".9"/>
+    <rect x="4" y="31" width="92" height="43" rx="7" fill="none" stroke="#ffffff" stroke-opacity=".6" stroke-width="1"/>
+    <rect x="9" y="35" width="82" height="15" rx="6" fill="url(#${shine})"/>
+    <rect x="9" y="53" width="82" height="8" rx="4" fill="url(#${shine})" opacity=".4"/>
+  </svg>`;
+}
+
+/* Homepage category browser: back to a grid of individual folder icons
+   (crystal-gold material) with preview photos peeking out of the top —
+   the big cascading tab-bar version tried last round didn't land. */
 window.renderCategoryTiles = function (containerId) {
   const wrap = document.getElementById(containerId);
   if (!wrap) return;
-  const lang = document.documentElement.getAttribute("data-lang") || "zh";
+  const lang = document.documentElement.getAttribute("data-lang") || "en";
 
-  const tiles = window.CATEGORIES.map(
-    (c) => `
+  const tiles = window.CATEGORIES.map((c, idx) => {
+    const previews = (window.PROJECTS || [])
+      .filter((p) => p.category === c.slug)
+      .slice(0, 3)
+      .map((p) => p.coverHome || p.cover);
+    const peekHTML = previews
+      .map((src, i) => `<img src="${src}" alt="" loading="lazy" style="--pi:${i}">`)
+      .join("");
+    return `
     <a href="work.html?cat=${c.slug}" class="cat-tile reveal" style="--tile-c: var(--c-${c.slug})">
-      <div class="cat-tile-num" style="color: var(--c-${c.slug})">${c.num}</div>
-      <div class="cat-tile-name">${lang === "zh" ? c.zh : c.en}</div>
-      <div class="cat-tile-en">${lang === "zh" ? c.en : c.zh}</div>
-    </a>`
-  );
+      <div class="cat-tile-peek">${peekHTML}</div>
+      <div class="cat-tile-icon">${folderSvg(idx)}</div>
+      <div class="cat-tile-folder">
+        <div class="cat-tile-num">${c.num}</div>
+        <div class="cat-tile-name">${lang === "zh" ? c.zh : c.en}</div>
+        <div class="cat-tile-en">${lang === "zh" ? c.en : c.zh}</div>
+      </div>
+    </a>`;
+  });
 
+  // Same bilingual pairing as every other folder tile — main label in the
+  // current UI language, the other language as the small caption below —
+  // just with an external-link arrow appended to the caption.
   const photoStrings = window.STRINGS.photography;
+  const photoOtherLang = lang === "zh" ? "en" : "zh";
   tiles.push(`
     <a href="${window.PHOTOGRAPHY_LINK}" target="_blank" rel="noopener" class="cat-tile cat-tile-external reveal">
-      <div class="cat-tile-num">★</div>
-      <div class="cat-tile-name">${photoStrings.zh_en_label[lang]}</div>
-      <div class="cat-tile-en">PHOTOGRAPHY ↗</div>
+      <div class="cat-tile-peek"></div>
+      <div class="cat-tile-icon">${folderSvg("ext")}</div>
+      <div class="cat-tile-folder">
+        <div class="cat-tile-num">★</div>
+        <div class="cat-tile-name">${photoStrings.zh_en_label[lang]}</div>
+        <div class="cat-tile-en">${photoStrings.zh_en_label[photoOtherLang]} ↗</div>
+      </div>
     </a>`);
 
   wrap.innerHTML = tiles.join("");
@@ -336,7 +391,7 @@ window.renderCategoryTiles = function (containerId) {
 window.renderFeatured = function (containerId, projectList, ids) {
   const wrap = document.getElementById(containerId);
   if (!wrap) return;
-  const lang = document.documentElement.getAttribute("data-lang") || "zh";
+  const lang = document.documentElement.getAttribute("data-lang") || "en";
 
   const cards = ids
     .map((id) => projectList.find((p) => p.id === id))
@@ -345,7 +400,12 @@ window.renderFeatured = function (containerId, projectList, ids) {
       const cat = window.CATEGORIES.find((c) => c.slug === p.category);
       const eyebrow = `${String(i + 1).padStart(2, "0")} · ${cat ? (lang === "zh" ? cat.zh : cat.en) : ""}`;
       return `
-      <a href="project.html?id=${p.id}" class="feature-card reveal" style="transition-delay:${i * 0.06}s; --tile-c: var(--c-${p.category})">
+      <a href="project.html?id=${p.id}" class="feature-card win reveal" style="transition-delay:${i * 0.06}s; --tile-c: var(--c-${p.category})">
+        <div class="win-titlebar">
+          <div class="win-icon"></div>
+          <div class="win-title">${p.title[lang]}</div>
+          <div class="win-controls"><span>_</span><span>&#9633;</span><span>x</span></div>
+        </div>
         <img src="${p.coverHome || p.cover}" alt="" loading="lazy">
         <div class="feature-card-body">
           <div class="feature-card-eyebrow" style="color: var(--c-${p.category})">${eyebrow}</div>
