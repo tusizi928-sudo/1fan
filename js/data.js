@@ -31,8 +31,8 @@ window.STRINGS = {
   nav_photography: { zh: "摄影", en: "Photography" },
 
   hero_role: {
-    zh: "视觉艺术家 / 视觉传达设计师",
-    en: "Visual Artist / Visual Communication Designer",
+    zh: "视觉传达设计师",
+    en: "Visual Communication Designer",
   },
   hero_tagline: {
     zh: "在视觉文化与身份认同之间，寻找传统与当代的转译方式。",

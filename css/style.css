@@ -600,25 +600,35 @@ body::before {
    layered over it for real depth. Lifts and tilts open (with a colored
    glow in the category's own color) on hover. */
 .cat-tile-icon {
-  width: 96px; aspect-ratio: 100 / 78; margin: 0 auto 12px;
+  position: relative;
+  width: 96px; aspect-ratio: 100 / 96; margin: 0 auto 12px;
   filter: drop-shadow(0 10px 14px rgba(150,110,10,.28));
   transition: transform .3s cubic-bezier(.2,.8,.2,1), filter .3s;
   transform-origin: 50% 100%;
 }
-.cat-tile-icon-svg { width: 100%; height: 100%; display: block; opacity: .88; }
+/* preserveAspectRatio="none" lets the folder stretch to the taller box
+   above (was a flat 100:78, now 100:96) instead of letterboxing inside
+   it — a proper less-squashed folder rather than a flat icon floating in
+   extra empty space. */
+.cat-tile-icon-svg { position: relative; z-index: 1; width: 100%; height: 100%; display: block; opacity: .88; }
 .cat-tile:hover .cat-tile-icon {
   transform: scale(1.08) rotate(-3deg) translateY(-3px);
   filter: drop-shadow(0 16px 22px var(--tile-c, rgba(150,110,10,.4)));
 }
 .cat-tile-folder { position: relative; z-index: 2; }
+/* the number now lives tucked behind the folder icon's own bottom-left
+   corner (in DOM order, and therefore paint order, before the svg — see
+   folderSvg()/renderCategoryTiles() in gallery.js) rather than as a
+   separate metallic line of text above the folder name */
 .cat-tile-num {
+  position: absolute; left: -6px; bottom: -8px; z-index: 0;
   font-family: var(--serif); font-style: italic; font-weight: 700;
-  font-size: clamp(19px, 1.7vw, 23px); margin-bottom: 4px;
-  background: var(--metal-grad); background-clip: text; -webkit-background-clip: text;
-  color: transparent; -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 1px 1px rgba(20,24,30,.15));
+  font-size: clamp(30px, 3.4vw, 38px); line-height: 1;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(20,24,30,.2);
+  pointer-events: none;
 }
-.cat-tile-name { font-family: var(--serif); font-weight: 500; font-size: 15.5px; color: var(--cat-heading); }
+.cat-tile-name { font-family: var(--serif); font-weight: 500; font-size: 15.5px; color: var(--ink); }
 .cat-tile-en { margin-top: 4px; font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-50); }
 
 @media (max-width: 900px) {
@@ -816,7 +826,11 @@ body::before {
 @media (max-width: 640px) {
   #work-list .timeline-item,
   #research-list .timeline-item {
-    grid-template-columns: 1fr; gap: 4px;
+    grid-template-columns: 1fr; gap: 4px; text-align: left;
+  }
+  #work-list .timeline-item > div,
+  #research-list .timeline-item > div {
+    text-align: left;
   }
   #work-list .timeline-period-stacked,
   #research-list .timeline-period-stacked {
@@ -826,6 +840,12 @@ body::before {
   #work-list .timeline-period-stacked .tp-sep,
   #research-list .timeline-period-stacked .tp-sep {
     width: 12px; height: 1px;
+  }
+  /* the bullet list is literally "what I did" for each role — a blue
+     tint pulls it apart from the plain gray notes/result text nearby */
+  #work-list .timeline-bullets li,
+  #research-list .timeline-bullets li {
+    color: var(--accent);
   }
 }
 .timeline-bullets li:last-child { margin-bottom: 0; }

@@ -311,7 +311,7 @@ function folderSvg(uid) {
   const front = `ff${uid}`;
   const shine = `fs${uid}`;
   return `
-  <svg class="cat-tile-icon-svg" viewBox="0 0 100 78" xmlns="http://www.w3.org/2000/svg">
+  <svg class="cat-tile-icon-svg" viewBox="0 0 100 78" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="${back}" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stop-color="#e79615"/>
@@ -355,9 +355,11 @@ window.renderCategoryTiles = function (containerId) {
     return `
     <a href="work.html?cat=${c.slug}" class="cat-tile reveal" style="--tile-c: var(--c-${c.slug})">
       <div class="cat-tile-peek">${peekHTML}</div>
-      <div class="cat-tile-icon">${folderSvg(idx)}</div>
-      <div class="cat-tile-folder">
+      <div class="cat-tile-icon">
         <div class="cat-tile-num">${c.num}</div>
+        ${folderSvg(idx)}
+      </div>
+      <div class="cat-tile-folder">
         <div class="cat-tile-name">${lang === "zh" ? c.zh : c.en}</div>
         <div class="cat-tile-en">${lang === "zh" ? c.en : c.zh}</div>
       </div>
@@ -372,9 +374,11 @@ window.renderCategoryTiles = function (containerId) {
   tiles.push(`
     <a href="${window.PHOTOGRAPHY_LINK}" target="_blank" rel="noopener" class="cat-tile cat-tile-external reveal">
       <div class="cat-tile-peek"></div>
-      <div class="cat-tile-icon">${folderSvg("ext")}</div>
-      <div class="cat-tile-folder">
+      <div class="cat-tile-icon">
         <div class="cat-tile-num">★</div>
+        ${folderSvg("ext")}
+      </div>
+      <div class="cat-tile-folder">
         <div class="cat-tile-name">${photoStrings.zh_en_label[lang]}</div>
         <div class="cat-tile-en">${photoStrings.zh_en_label[photoOtherLang]} ↗</div>
       </div>
